@@ -7,7 +7,7 @@
         <q-form @submit="login">
           <h2 class="text-h6">
             <q-avatar>
-              <img src="~assets/logo.jpeg" />
+              <img src="~assets/onita-logo.923195d3.png" />
             </q-avatar>
             Login Form
           </h2>
@@ -37,9 +37,18 @@
               <span class="col">or</span>
               <div class="col"><hr /></div>
             </div>
-            <router-link to="/account/signup">
-              <q-btn type="submit" flat color="primary" label="Sign up"></q-btn>
-            </router-link>
+            <div>
+              Dont have an account?
+
+              <router-link to="/account/signup">
+                <q-btn
+                  type="submit"
+                  flat
+                  color="primary"
+                  label="Sign up"
+                ></q-btn>
+              </router-link>
+            </div>
           </div>
         </q-form>
       </q-card-section>

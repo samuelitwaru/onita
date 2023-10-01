@@ -17,7 +17,9 @@
         </p>
 
         <div class="flex">
-          <q-btn class="q-ma-sm" color="accent" label="signin" />
+          <router-link to="account/login">
+            <q-btn class="q-ma-sm" color="accent" label="signin" />
+          </router-link>
           <create-account />
         </div>
         <q-separator class="q-mx-sm" spaced />
