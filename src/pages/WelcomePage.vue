@@ -22,7 +22,7 @@
           </router-link>
           <create-account />
         </div>
-        <q-separator class="q-mx-sm" spaced />0
+        <q-separator class="q-mx-sm" spaced />
         <div class="q-pa-sm">
           <level-card-list />
         </div>
