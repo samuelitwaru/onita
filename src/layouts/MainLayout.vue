@@ -26,7 +26,7 @@
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <side-menu />
+      <student-menu />
     </q-drawer>
 
     <q-page-container>

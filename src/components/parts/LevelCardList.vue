@@ -16,7 +16,9 @@
       <q-separator />
 
       <q-card-actions vertical>
-        <q-btn :color="level.themeColor" label="browse" />
+        <router-link align="center" :to="`/browse/${level.name.toLowerCase()}`">
+          <q-btn :color="level.themeColor" label="browse" />
+        </router-link>
       </q-card-actions>
     </q-card>
   </div>

@@ -58,8 +58,6 @@ export default defineComponent({
       ],
     };
   },
-  created() {
-    console.log(this.$firebase);
-  },
+  created() {},
 });
 </script>
