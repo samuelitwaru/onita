@@ -65,11 +65,21 @@ const routes = [
 
   {
     path: "/subjects",
-    component: () => import("layouts/SubjectLayout.vue"),
+    component: () => import("layouts/SubjectLayout2.vue"),
     children: [
       {
         path: ":id",
         component: () => import("pages/SubjectPage.vue"),
+      },
+
+      {
+        path: ":id/topics/:topic_id/subtopics/:subtopic_id",
+        component: () => import("components/SubjectContent.vue"),
+      },
+
+      {
+        path: ":id/topics/:topic_id/test",
+        component: () => import("components/TopicTest.vue"),
       },
 
       {

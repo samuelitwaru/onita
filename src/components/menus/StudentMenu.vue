@@ -2,7 +2,9 @@
   <div>
     <q-card flat bordered class="my-card">
       <q-card-section>
-        <div class="text-h6">Samuel Itwaru</div>
+        <div class="text-h6">
+          {{ user.student.full_name }}
+        </div>
       </q-card-section>
 
       <q-card-section class="q-pt-none"> You're signed in </q-card-section>
@@ -28,6 +30,7 @@
 export default {
   data() {
     return {
+      user: this.$authStore.currentUser,
       menuItems: [
         { name: "Dashboard", route: "/dashboard", icon: "dashboard" },
         { name: "Subjects", route: "/dashboard/subjects", icon: "subject" },

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h3 class="text-center text-h3">Your Subjects</h3>
-    <div class="flex justify-center q-col-gutter-sm q-pa-sm">
+    <!-- <h3 class="text-center text-h3">Your Subjects</h3> -->
+    <div class="flex justify-cente q-col-gutter-sm q-pa-sm">
       <q-card
         class="q-ma-sm"
         v-for="subject in subjects"
@@ -30,6 +30,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   data() {
     return {
+      user: this.$authStore.currentUser,
       subjects: [
         {
           id: 1,
@@ -57,6 +58,22 @@ export default defineComponent({
         },
       ],
     };
+  },
+
+  created() {
+    this.get_subjects();
+  },
+
+  methods: {
+    get_subjects() {
+      this.$api
+        .get(
+          `subjects/?learning_center=${this.user.student.level.learning_center}`
+        )
+        .then((res) => {
+          this.subjects = res.data;
+        });
+    },
   },
 });
 </script>

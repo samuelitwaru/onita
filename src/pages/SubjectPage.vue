@@ -6,7 +6,7 @@
     </div>
 
     <div>
-      <question-browser />
+      <!-- <question-browser /> -->
     </div>
   </div>
 </template>

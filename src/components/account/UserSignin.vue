@@ -82,7 +82,7 @@ export default {
 
       this.formData["username"] = this.formData["email"];
       this.$api
-        .post(`/accounts/login/`, this.formData)
+        .post(`/users/login/`, this.formData)
         .then((res) => {
           const token = res.data.token;
           const user = res.data.user;

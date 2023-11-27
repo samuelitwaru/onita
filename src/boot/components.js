@@ -14,6 +14,7 @@ import createAccount from "components/account/CreateAccount.vue";
 import mathjaxComponent from "components/utils/MathjaxComponent.vue";
 import sectionEditor from "components/SectionEditor.vue";
 import questionEditor from "components/QuestionEditor.vue";
+import testReport from "components/TestReport.vue";
 
 const components = {
   "side-menu": sideMenu,
@@ -32,6 +33,7 @@ const components = {
   "mathjax-component": mathjaxComponent,
   "section-editor": sectionEditor,
   "question-editor": questionEditor,
+  "test-report": testReport,
 };
 
 export default async ({ app }) => {
