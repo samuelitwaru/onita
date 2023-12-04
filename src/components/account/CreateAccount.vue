@@ -8,7 +8,7 @@
       @click="dialogVisible = true"
     />
     <q-dialog v-model="dialogVisible">
-      <q-card>
+      <q-card style="width: 300px">
         <q-card-section class="q-pt-md q-pb-md">
           <q-card-title class="text-h6">Create Account</q-card-title>
           <q-select

@@ -1,8 +1,8 @@
 <template lang="">
   <div class="q-pa-sm">
     <div>
-      <router-link to="/dashboard/subjects">Subjects</router-link> >
-      {{ subject.code }}/{{ subject.name }}
+      <!-- <router-link to="/dashboard/subjects">Subjects</router-link> >
+      {{ subject.code }}/{{ subject.name }} -->
     </div>
 
     <div>
@@ -14,12 +14,7 @@
 export default {
   data() {
     return {
-      subject: {
-        id: 1,
-        name: "Mathematics",
-        code: "01",
-        icon: "icon",
-      },
+      subject: {},
     };
   },
 };

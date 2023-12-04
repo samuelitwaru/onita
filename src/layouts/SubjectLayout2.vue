@@ -110,7 +110,11 @@ export default defineComponent({
         .then((res) => {
           if (res.data.length == 1) {
             this.topic = res.data[0].topic_detail;
-            console.log(this.topic);
+            if (this.topic.subtopics.length) {
+              this.$router.push(
+                `/subjects/${this.$route.params.id}/topics/${this.topic.id}/subtopics/${this.topic.subtopics[0].id}`
+              );
+            }
           }
         });
     },

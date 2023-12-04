@@ -1,6 +1,9 @@
 <template>
-  <q-page class="flex flex-center">
-    <main-menu />
+  <q-page class="fle flex-center" style="height: 100%">
+    <div style="height: 100%">
+      <!-- <label>components/MainMenu.vue</label> -->
+      <my-chart />
+    </div>
   </q-page>
 </template>
 

@@ -85,10 +85,10 @@ export default {
         .post(`/users/login/`, this.formData)
         .then((res) => {
           const token = res.data.token;
-          const user = res.data.user;
+          const user = res.data;
           this.$authStore.setUserAndToken(user, token);
           this.$utilsStore.setLoading(false);
-          var _next = this.$route.query._next || "/";
+          var _next = this.$route.query._next || "/dashboard";
           this.$router.push(_next);
         })
         .catch((err) => {
@@ -97,7 +97,7 @@ export default {
         });
     },
     setFormData() {
-      this.formData = { email: "samuelitwaru@gmail.com", password: "bratz123" };
+      this.formData = { email: "okotsmith@gmail.com", password: "123" };
     },
   },
 };

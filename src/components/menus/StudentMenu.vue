@@ -39,7 +39,11 @@ export default {
           route: "/dashboard/subjects",
           icon: "edit_note",
         },
-        { name: "Account", route: "/dashboard/subjects", icon: "person" },
+        {
+          name: "Account",
+          route: "/dashboard/account/student",
+          icon: "person",
+        },
       ],
     };
   },

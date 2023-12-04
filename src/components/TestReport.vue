@@ -7,8 +7,6 @@
         </q-card-section>
         <q-separator spaced />
 
-        {{ report.student_progress }}
-
         <q-card-section align="center">
           <div class="text-h1 score q-my-auto" align="center">{{ score }}%</div>
           <div class="q-my-sm" v-if="score >= 50">
@@ -101,7 +99,7 @@ export default {
             { topic: this.report.next_topic.id }
           )
           .then((res) => {
-            console.log(res.data);
+            window.location.href = `/subjects/${this.$route.params.id}`;
           });
       }
     },
