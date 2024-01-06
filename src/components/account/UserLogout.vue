@@ -44,7 +44,7 @@ export default {
     },
     confirmLogout() {
       this.$utilsStore.setLoading(true);
-      this.$api.get(`/accounts/logout/`).then((res) => {
+      this.$api.get(`/users/logout/`).then((res) => {
         this.$authStore.clearUserAndToken();
         this.$router.push("/");
         this.$utilsStore.setLoading(false);

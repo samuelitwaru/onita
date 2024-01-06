@@ -98,7 +98,6 @@ export default defineComponent({
 
   created() {
     this.getSubject();
-    // this.getTopic();
   },
 
   methods: {

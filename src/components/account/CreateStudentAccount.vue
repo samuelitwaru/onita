@@ -1,6 +1,6 @@
 <template lang="">
   <q-page class="q-pa-sm">
-    <div class="q-mx-auto q-ma-md q-pa-md q-gutter-md" style="max-width: 40rem">
+    <div class="q-mx-auto q-ma-md q-pa-md q-gutter-md" style="max-width: 32rem">
       <q-form @submit="completeSignup">
         <q-card class="" bordered>
           <q-card-section class="text-h6">
@@ -11,101 +11,107 @@
               Student Registration
             </h2>
           </q-card-section>
+
+          <q-separator spaced />
+
           <q-card-section class="q-pa-sm">
-            <q-list class="row col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <q-item-section>
-                  <q-input
-                    outlined
-                    dense
-                    v-model="formData.first_name"
-                    label="First Name"
-                    :rules="nameRules"
-                    required
-                  ></q-input>
-                </q-item-section>
-              </q-item>
-              <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <q-item-section>
-                  <q-input
-                    outlined
-                    dense
-                    v-model="formData.last_name"
-                    label="Last Name"
-                    :rules="nameRules"
-                  ></q-input>
-                </q-item-section>
-              </q-item>
-              <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <q-item-section>
-                  <q-input
-                    outlined
-                    dense
-                    v-model="formData.email"
-                    label="Email"
-                    type="email"
-                    :rules="emailRules"
-                  ></q-input>
-                </q-item-section>
-              </q-item>
-              <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <q-item-section>
-                  <q-input
-                    outlined
-                    dense
-                    v-model="formData.telephone"
-                    label="Telephone"
-                    type="tel"
-                    :rules="phoneRules"
-                  ></q-input>
-                </q-item-section>
-              </q-item>
-              <q-item class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <q-item-section>
-                  <q-select
-                    dense
-                    outlined
-                    v-model="formData.level"
-                    :options="levels"
-                    label="Level"
-                    option-value="id"
-                    option-label="name"
-                    map-options
-                    emit-value
-                    required
-                  />
-                </q-item-section>
-              </q-item>
-              <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <q-item-section>
-                  <q-input
-                    outlined
-                    dense
-                    v-model="formData.password"
-                    label="Password"
-                    type="password"
-                    :rules="passwordRules"
-                    required
-                  ></q-input>
-                </q-item-section>
-              </q-item>
-              <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <q-item-section>
-                  <q-input
-                    outlined
-                    dense
-                    v-model="formData.confirm_password"
-                    label="Confirm Password"
-                    type="password"
-                    :rules="confirmPasswordRules"
-                  ></q-input>
-                </q-item-section>
-              </q-item>
-            </q-list>
+            <div class="row q-col-gutter-xs">
+              <div class="col">
+                <q-input
+                  outlined
+                  dense
+                  v-model="formData.first_name"
+                  label="First Name"
+                  :rules="nameRules"
+                  required
+                ></q-input>
+                <small class="text-red">{{ formError.first_name }}</small>
+              </div>
+              <div class="col">
+                <q-input
+                  outlined
+                  dense
+                  v-model="formData.last_name"
+                  label="Last Name"
+                  :rules="nameRules"
+                ></q-input>
+                <small class="text-red">{{ formError.last_name }}</small>
+              </div>
+            </div>
+
+            <div class="row q-col-gutter-xs">
+              <div class="col">
+                <q-input
+                  outlined
+                  dense
+                  v-model="formData.email"
+                  label="Email"
+                  type="email"
+                  :rules="emailRules"
+                ></q-input>
+                <small class="text-red">{{ formError.email }}</small>
+              </div>
+              <div class="col">
+                <small class="text-red">{{ formError.telephone }}</small>
+                <q-input
+                  outlined
+                  dense
+                  v-model="formData.telephone"
+                  label="Telephone"
+                  type="tel"
+                  :rules="phoneRules"
+                ></q-input>
+              </div>
+            </div>
+
+            <div class="col-12 q-mb-md">
+              <q-select
+                dense
+                outlined
+                v-model="formData.level"
+                :options="levels"
+                label="Level"
+                option-value="id"
+                option-label="name"
+                map-options
+                emit-value
+                required
+              />
+              <small class="text-red">{{ formError.level }}</small>
+            </div>
+
+            <div class="row q-col-gutter-xs">
+              <div class="col">
+                <q-input
+                  outlined
+                  dense
+                  v-model="formData.password"
+                  label="Password"
+                  type="password"
+                  :rules="passwordRules"
+                  required
+                ></q-input>
+                <small class="text-red">{{ formError.password }}</small>
+              </div>
+              <div class="col">
+                <q-input
+                  outlined
+                  dense
+                  v-model="formData.confirm_password"
+                  label="Confirm Password"
+                  type="password"
+                  :rules="confirmPasswordRules"
+                ></q-input>
+                <small class="text-red">{{ formError.confirm_password }}</small>
+              </div>
+            </div>
           </q-card-section>
+
+          <q-separator spaced />
+
           <q-card-section>
-            <q-card-actions>
-              <div class="row flex flex-center">
+            <q-card-actions align="center">
+              <div class="flex">
                 <q-btn
                   type="submit"
                   class="justify-center"
@@ -113,9 +119,9 @@
                   label="Sign up"
                 ></q-btn>
                 &nbsp;&nbsp;&nbsp;
+                <hr />
                 <div>
                   Already have an account?
-
                   <router-link to="/account/login">
                     <q-btn flat color="primary" label="Sign in"></q-btn>
                   </router-link>
@@ -133,7 +139,7 @@ export default {
   data() {
     return {
       levels: [],
-
+      formError: {},
       formData: {
         first_name: "",
         last_name: "",
@@ -176,7 +182,6 @@ export default {
     },
     completeSignup(event) {
       event.preventDefault();
-      //console.log("Payload:", this.formData);
       this.$api
         .post("users/student/create/", this.formData)
         .then(() => {
@@ -185,6 +190,7 @@ export default {
         })
         .catch((err) => {
           console.log("error", err.response.data);
+          this.formError = err.response.data;
         });
     },
     setFormData() {

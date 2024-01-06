@@ -20,7 +20,7 @@
         </q-card-section>
         <q-separator spaced />
         <q-card-actions align="right">
-          <q-btn flat label="see my test" color="accent" />
+          <!-- <q-btn flat label="see my test" color="accent" /> -->
           <a href="" class="q-px-sm"
             ><q-btn label="Attempt Again" color="accent"
           /></a>
@@ -28,10 +28,10 @@
             v-if="report.next_topic.id"
             :href="`/subjects/7/topics/${report.next_topic.id}/subtopics/${subtopic}`"
           >
-            <q-btn v-if="score >= 50" label="Next Topic" color="primary" />
           </a>
 
           <q-btn
+            v-if="score >= 50"
             color="primary"
             label="save progress and continue"
             @click="updateStudentProgress"

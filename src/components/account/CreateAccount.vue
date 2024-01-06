@@ -7,6 +7,7 @@
       label="create account"
       @click="dialogVisible = true"
     />
+
     <q-dialog v-model="dialogVisible">
       <q-card style="width: 300px">
         <q-card-section class="q-pt-md q-pb-md">
@@ -22,7 +23,7 @@
             <q-btn
               label="Cancel"
               color="secondary"
-              @click="dialogVisible = true"
+              @click="dialogVisible = false"
             />
             <q-btn
               label="Create"

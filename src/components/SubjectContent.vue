@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <div class="text-h6 q-pa-sm">{{ subtopic.name }}</div>
     <q-card class="my-card q-pa-md" flat bordered>
-      <div style="overflow: auto" v-html="subtopic.content"></div>
+      <vue-mathjax :safe="false" :formula="subtopic.content"></vue-mathjax>
     </q-card>
     <div class="q-my-sm row justify-between">
       <div class="col" align="left">
@@ -16,7 +16,7 @@
       <div class="col" align="right">
         <a
           v-if="nextSubtopic"
-          :href="`/subjects/7/topics/${this.subtopic.id}/subtopics/${this.nextSubtopic.id}`"
+          :href="`/subjects/${$route.params.id}/topics/${this.subtopic.id}/subtopics/${this.nextSubtopic.id}`"
         >
           <q-btn color="primary" label="next" icon-right="arrow_right" flat />
         </a>
@@ -43,7 +43,6 @@ export default {
         .get(`subtopics/${this.$route.params.subtopic_id}`)
         .then((res) => {
           this.subtopic = res.data;
-          console.log(this.subtopic.topic);
           this.getNextSubtopic(this.subtopic.topic, this.subtopic.order + 1);
           this.getPrevSubtopic(this.subtopic.topic, this.subtopic.order - 1);
         });

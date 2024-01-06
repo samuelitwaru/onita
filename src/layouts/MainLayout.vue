@@ -1,5 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
+    <loading-component :loading="true" />
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -22,6 +23,7 @@
           />
           ONITA
         </q-toolbar-title>
+        <user-logout />
       </q-toolbar>
     </q-header>
 

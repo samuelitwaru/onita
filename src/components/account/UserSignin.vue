@@ -40,14 +40,7 @@
             <div>
               Dont have an account?
 
-              <router-link to="/account/signup">
-                <q-btn
-                  type="submit"
-                  flat
-                  color="primary"
-                  label="Sign up"
-                ></q-btn>
-              </router-link>
+              <create-account />
             </div>
           </div>
         </q-form>

@@ -16,6 +16,10 @@ import sectionEditor from "components/SectionEditor.vue";
 import questionEditor from "components/QuestionEditor.vue";
 import testReport from "components/TestReport.vue";
 import myChart from "components/charts/MyChart.vue";
+import { createApp } from "vue";
+import App from "../App.vue";
+import VueMathjax from "vue-mathjax-next";
+createApp(App).use(VueMathjax).mount("#app");
 
 const components = {
   "side-menu": sideMenu,
@@ -36,6 +40,7 @@ const components = {
   "question-editor": questionEditor,
   "test-report": testReport,
   "my-chart": myChart,
+  "vue-mathjax": VueMathjax,
 };
 
 export default async ({ app }) => {

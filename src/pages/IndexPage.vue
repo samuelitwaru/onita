@@ -9,8 +9,13 @@
 
 <script>
 import { defineComponent } from "vue";
+import { authStore } from "src/stores/auth";
 
 export default defineComponent({
   name: "IndexPage",
+
+  created() {
+    // console.log(authStore);
+  },
 });
 </script>

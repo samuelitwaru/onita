@@ -1,5 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
+    <loading-component :loading="true" />
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title>
