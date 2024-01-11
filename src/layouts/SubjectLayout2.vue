@@ -107,6 +107,7 @@ export default defineComponent({
           `student-topic-progresses/?student=${this.user.student.id}&subject=${this.$route.params.id}`
         )
         .then((res) => {
+          console.log(res.data);
           if (res.data.length == 1) {
             this.topic = res.data[0].topic_detail;
             if (this.topic.subtopics.length) {
@@ -121,6 +122,7 @@ export default defineComponent({
     getSubject() {
       this.$api.get(`subjects/${this.$route.params.id}/`).then((res) => {
         this.subject = res.data;
+        console.log(this.subject);
         this.getStudentTopicProgress();
       });
     },

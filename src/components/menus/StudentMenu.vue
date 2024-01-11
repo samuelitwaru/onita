@@ -3,11 +3,14 @@
     <q-card flat bordered class="my-card">
       <q-card-section>
         <div class="text-h6">
-          {{ user.student.full_name }}
+          <q-icon name="person" size="xl" />{{ user.student.full_name }}
+          <p class="q-pl-xl">
+            <small class="text-grey-8">{{ user.student.level.name }}</small>
+          </p>
+          <!-- <q-separator spaced /> -->
         </div>
+        <div class="q-pl-xl">You're signed in</div>
       </q-card-section>
-
-      <q-card-section class="q-pt-none"> You're signed in </q-card-section>
     </q-card>
     <q-list>
       <div v-for="item in menuItems" :key="item.name">
