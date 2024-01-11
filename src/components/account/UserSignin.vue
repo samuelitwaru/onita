@@ -32,15 +32,18 @@
           ></q-input>
           <div class="">
             <q-btn type="submit" color="primary" label="Login"></q-btn>
-            <div align="center" class="flex justify-between">
-              <div class="col"><hr /></div>
-              <span class="col">or</span>
-              <div class="col"><hr /></div>
+            <div class="q-py-sm">
+              <router-link to="/account/reset-password"
+                >Forgot Password</router-link
+              >
             </div>
-            <div>
-              Dont have an account?
 
-              <create-account />
+            <q-separator spaced />
+            <div>
+              <div class="flex items-center">
+                Dont have an account?
+                <create-account />
+              </div>
             </div>
           </div>
         </q-form>

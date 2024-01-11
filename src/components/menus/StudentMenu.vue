@@ -26,6 +26,7 @@
     </q-list>
   </div>
 </template>
+
 <script>
 export default {
   data() {
@@ -47,6 +48,15 @@ export default {
       ],
     };
   },
+  watch: {
+    "$authStore.currentUser": {
+      handler(newValue) {
+        this.user = newValue;
+      },
+      deep: true,
+    },
+  },
 };
 </script>
+
 <style lang=""></style>

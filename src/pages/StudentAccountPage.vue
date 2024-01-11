@@ -20,7 +20,7 @@
             <q-input
               outlined
               dense
-              v-model="formData.firstName"
+              v-model="formData.first_name"
               label="First Name"
               type="text"
               :rules="nameRules"
@@ -29,7 +29,7 @@
             <q-input
               outlined
               dense
-              v-model="formData.lastName"
+              v-model="formData.last_name"
               label="Last Name"
               type="text"
               :rules="nameRules"
@@ -54,7 +54,12 @@
               required
             ></q-input>
 
-            <q-btn type="submit" color="primary" label="Save Changes"></q-btn>
+            <q-btn
+              type="submit"
+              color="primary"
+              label="Save Changes"
+              @click="updateStudent"
+            ></q-btn>
             <q-btn @click="cancelEditing" label="Cancel"></q-btn>
           </q-form>
         </div>
@@ -67,8 +72,8 @@
             margin: 8px;
           "
         >
-          <div><strong>First Name:</strong> {{ formData.firstName }}</div>
-          <div><strong>Last Name:</strong> {{ formData.lastName }}</div>
+          <div><strong>First Name:</strong> {{ formData.first_name }}</div>
+          <div><strong>Last Name:</strong> {{ formData.last_name }}</div>
           <div><strong>Email:</strong> {{ formData.email }}</div>
           <div><strong>Telephone:</strong> {{ formData.telephone }}</div>
         </div>
@@ -81,6 +86,7 @@
 export default {
   data() {
     return {
+      currentUser: this.$authStore.currentUser.student,
       isEditing: false,
       message: "",
       errorResponse: {},
@@ -102,6 +108,18 @@ export default {
     this.setFormData();
   },
   methods: {
+    updateStudent() {
+      this.$utilsStore.setLoading(true);
+      this.$api
+        .put(`students/${this.currentUser.id}/update/`, this.formData)
+        .then((res) => {
+          const token = res.data.token;
+          const user = res.data;
+          this.$authStore.setUserAndToken(user, token);
+          this.$utilsStore.setLoading(false);
+          this.isEditing = false;
+        });
+    },
     startEditing() {
       this.isEditing = true;
     },
@@ -111,13 +129,14 @@ export default {
     },
     cancelEditing() {
       this.isEditing = false;
+      this.setFormData();
     },
     setFormData() {
       this.formData = {
-        firstName: "John",
-        lastName: "Doe",
-        email: "john.doe@example.com",
-        telephone: "123-456-7890",
+        first_name: this.currentUser.user.first_name || "",
+        last_name: this.currentUser.user.last_name || "",
+        email: this.currentUser.user.email || "",
+        telephone: this.currentUser.telephone || "",
       };
     },
   },

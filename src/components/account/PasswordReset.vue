@@ -49,7 +49,7 @@ export default {
     resetPassword() {
       this.$utilsStore.setLoading(true);
       this.$api
-        .post("accounts/reset-password/", this.formData)
+        .post("users/reset-password/", this.formData)
         .then((res) => {
           console.log(res.data);
           this.$utilsStore.setLoading(false);

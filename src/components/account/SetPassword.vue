@@ -42,9 +42,9 @@ export default {
   methods: {
     setPassword() {
       this.$utilsStore.setLoading(true);
-      this.$api.post("accounts/set-password/", this.formData).then((res) => {
+      this.$api.post("users/set-password/", this.formData).then((res) => {
         this.$utilsStore.setLoading(false);
-        this.$router.push("/account/profile");
+        this.$router.push("/account/login");
       });
     },
   },

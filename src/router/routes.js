@@ -21,6 +21,14 @@ const routes = [
         path: "account/login",
         component: () => import("components/account/UserSignin.vue"),
       },
+      {
+        path: "account/reset-password",
+        component: () => import("components/account/PasswordReset.vue"),
+      },
+      {
+        path: "index/account/password/set/:token",
+        component: () => import("components/account/SetPassword.vue"),
+      },
     ],
   },
 
@@ -44,6 +52,12 @@ const routes = [
         component: () => import("pages/StudentAccountPage.vue"),
       },
     ],
+  },
+
+  {
+    path: "/test",
+    component: () => import("layouts/IndexLayout.vue"),
+    children: [{ path: "", component: () => import("pages/ListTemplate.vue") }],
   },
 
   {
