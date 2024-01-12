@@ -20,7 +20,7 @@
       <q-separator />
 
       <q-list>
-        <div v-if="topic">
+        <div v-for="topic in subject?.topics" :key="topic">
           <q-btn color="black" class="full-width" align="left" flat>
             <span class="q-px-md">{{ topic.name }}</span>
           </q-btn>
@@ -54,6 +54,42 @@
           </q-card>
         </div>
       </q-list>
+
+      <!-- <q-list>
+        <div v-if="topic">
+          <q-btn color="black" class="full-width" align="left" flat>
+            <span class="q-px-md">{{ topic.name }}</span>
+          </q-btn>
+
+          <q-card class="my-card q-mx-md" flat bordered>
+            <q-card-section class="q-pa-sm">
+              <ul>
+                <li v-for="subtopic in topic.subtopics" :key="subtopic.id">
+                  <a
+                    :href="`/subjects/${subject?.id}/topics/${topic.id}/subtopics/${subtopic.id}`"
+                    block
+                  >
+                    {{ subtopic.name }}
+                  </a>
+                </li>
+                <div v-if="topic.test" class="q-py-sm">
+                  <router-link
+                    :to="`/subjects/${subject.id}/topics/${topic.id}/test`"
+                  >
+                    <q-btn
+                      icon="note"
+                      color="accent"
+                      dense
+                      flat
+                      label="Progress Test"
+                    />
+                  </router-link>
+                </div>
+              </ul>
+            </q-card-section>
+          </q-card>
+        </div>
+      </q-list> -->
     </q-drawer>
 
     <q-page-container>

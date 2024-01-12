@@ -35,7 +35,7 @@
     </div> -->
 
     <q-separator spaced />
-    <div>
+    <!-- <div>
       <div class="flex justify-cente q-col-gutter-sm q-pa-sm">
         <q-card
           class="q-ma-sm"
@@ -60,7 +60,7 @@
           </q-card-actions>
         </q-card>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
