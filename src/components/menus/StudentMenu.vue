@@ -1,6 +1,6 @@
 <template lang="">
   <div>
-    <q-card flat bordered class="my-card">
+    <q-card flat bordered class="my-card q-ma-sm">
       <q-card-section>
         <div class="text-h6">
           <q-icon name="person" size="xl" />{{ user.student.full_name }}
@@ -16,7 +16,7 @@
       <div v-for="item in menuItems" :key="item.name">
         <router-link :to="item.route" block>
           <q-btn
-            color="black"
+            :color="$route.path == item.route ? 'primary' : 'black'"
             class="full-width"
             align="left"
             :icon="item.icon"
@@ -37,12 +37,13 @@ export default {
       user: this.$authStore.currentUser,
       menuItems: [
         { name: "Dashboard", route: "/dashboard", icon: "dashboard" },
+        { name: "Wallet", route: "/dashboard/wallet", icon: "wallet" },
         { name: "Subjects", route: "/dashboard/subjects", icon: "subject" },
-        {
-          name: "Examination",
-          route: "/dashboard/subjects",
-          icon: "edit_note",
-        },
+        // {
+        //   name: "Examination",
+        //   route: "/dashboard/subjects",
+        //   icon: "edit_note",
+        // },
         {
           name: "Account",
           route: "/dashboard/account/student",

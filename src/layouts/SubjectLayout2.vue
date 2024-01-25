@@ -19,7 +19,7 @@
       </q-card>
       <q-separator />
 
-      <q-list>
+      <!-- <q-list>
         <div v-for="topic in subject?.topics" :key="topic">
           <q-btn color="black" class="full-width" align="left" flat>
             <span class="q-px-md">{{ topic.name }}</span>
@@ -53,9 +53,9 @@
             </q-card-section>
           </q-card>
         </div>
-      </q-list>
+      </q-list> -->
 
-      <!-- <q-list>
+      <q-list>
         <div v-if="topic">
           <q-btn color="black" class="full-width" align="left" flat>
             <span class="q-px-md">{{ topic.name }}</span>
@@ -89,7 +89,7 @@
             </q-card-section>
           </q-card>
         </div>
-      </q-list> -->
+      </q-list>
     </q-drawer>
 
     <q-page-container>
@@ -138,13 +138,16 @@ export default defineComponent({
 
   methods: {
     getStudentTopicProgress() {
+      console.log(
+        `student-topic-progresses/?student=${this.user.student.id}&subject=${this.$route.params.id}`
+      );
       this.$api
         .get(
           `student-topic-progresses/?student=${this.user.student.id}&subject=${this.$route.params.id}`
         )
         .then((res) => {
-          console.log(res.data);
           if (res.data.length == 1) {
+            console.log(res.data);
             this.topic = res.data[0].topic_detail;
             if (this.topic.subtopics.length) {
               this.$router.push(
@@ -158,7 +161,6 @@ export default defineComponent({
     getSubject() {
       this.$api.get(`subjects/${this.$route.params.id}/`).then((res) => {
         this.subject = res.data;
-        console.log(this.subject);
         this.getStudentTopicProgress();
       });
     },

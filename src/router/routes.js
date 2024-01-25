@@ -38,10 +38,13 @@ const routes = [
     children: [
       { path: "", component: () => import("pages/IndexPage.vue") },
       {
+        path: "wallet",
+        component: () => import("pages/WalletPage.vue"),
+      },
+      {
         path: "subjects",
         component: () => import("components/parts/SubjectList.vue"),
       },
-
       {
         path: "subjects/:id",
         component: () => import("pages/SubjectPage.vue"),

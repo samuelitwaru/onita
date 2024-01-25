@@ -16,6 +16,7 @@ import sectionEditor from "components/SectionEditor.vue";
 import questionEditor from "components/QuestionEditor.vue";
 import testReport from "components/TestReport.vue";
 import myChart from "components/charts/MyChart.vue";
+import flutterwavePayment from "components/FlutterwavePayment.vue";
 import { createApp } from "vue";
 import App from "../App.vue";
 import VueMathjax from "vue-mathjax-next";
@@ -40,6 +41,7 @@ const components = {
   "question-editor": questionEditor,
   "test-report": testReport,
   "my-chart": myChart,
+  "flutterwave-payment": flutterwavePayment,
   "vue-mathjax": VueMathjax,
 };
 
