@@ -28,7 +28,8 @@
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <student-menu />
+      <student-menu v-if="$userHasGroup('student')" />
+      <teacher-menu v-if="$userHasGroup('teacher')" />
     </q-drawer>
 
     <q-page-container>

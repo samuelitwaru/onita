@@ -1,66 +1,29 @@
 <template>
   <div>
-    <div class="q-pa-sm">
-      <div class="text-h5 q-pa-sm">My Subjects</div>
+    <div class="text-h5 q-pa-md">My Subjects</div>
+    <div class="flex q-pa-sm">
       <router-link
         v-for="subject in subjects"
         :key="subject"
         :to="`/subjects/${subject.id}`"
       >
-        <q-chip style="max-width: 15rem" square>
-          <q-avatar icon="bookmark" color="red" text-color="white" />
-          {{ subject.name }}
-        </q-chip>
-      </router-link>
-    </div>
-    <!-- <div class="flex justify-cente q-col-gutter-sm q-pa-sm">
-      <q-card
-        class="q-ma-sm"
-        v-for="subject in subjects"
-        :key="subject"
-        style="max-width: 15rem"
-      >
-        <q-card-section>
-          <div class="text-h6">{{ subject.code }}/{{ subject.name }}</div>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-actions vertical align="right">
-          <router-link :to="`/subjects/${subject.id}`">
-            <q-btn flat label="browse" />
-          </router-link>
-        </q-card-actions>
-      </q-card>
-    </div> -->
-
-    <q-separator spaced />
-    <!-- <div>
-      <div class="flex justify-cente q-col-gutter-sm q-pa-sm">
-        <q-card
-          class="q-ma-sm"
-          v-for="subjectProg in subjectProgresses"
-          :key="subjectProg"
-          style="max-width: 15rem"
-        >
-          <q-card-section>
-            <div class="text-h6">
-              {{ subjectProg.subject_detail.code }}/{{
-                subjectProg.subject_detail.name
-              }}
+        <q-card class="my-card q-ma-sm" style="min-width: 200px">
+          <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
+            <div class="absolute-bottom">
+              <div class="text-h6">{{ subject.name }}</div>
+              <div class="text-subtitle2">
+                {{ subject.learning_center_name }} Level
+              </div>
             </div>
-          </q-card-section>
+          </q-img>
 
-          <q-separator />
-
-          <q-card-actions vertical align="right">
-            <router-link :to="`/subjects/${subjectProg.subject_detail.id}`">
-              <q-btn flat label="browse" />
-            </router-link>
+          <q-card-actions align="right">
+            <q-btn color="primary" label="view" />
           </q-card-actions>
         </q-card>
-      </div>
-    </div> -->
+      </router-link>
+    </div>
+    <q-separator spaced />
   </div>
 </template>
 
@@ -77,12 +40,12 @@ export default defineComponent({
   },
 
   created() {
-    this.get_subjects();
+    this.getSubjects();
     this.getStudentTopicProgress();
   },
 
   methods: {
-    get_subjects() {
+    getSubjects() {
       this.$api
         .get(
           `subjects/?learning_center=${this.user.student.level.learning_center}`

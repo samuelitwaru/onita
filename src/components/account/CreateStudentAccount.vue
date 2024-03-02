@@ -182,15 +182,18 @@ export default {
     },
     completeSignup(event) {
       event.preventDefault();
+      this.$utilsStore.setLoading(true);
       this.$api
         .post("users/student/create/", this.formData)
         .then(() => {
           // const user = res.data;
           this.$router.push("/account/login");
+          this.$utilsStore.setLoading(false);
         })
         .catch((err) => {
           console.log("error", err.response.data);
           this.formError = err.response.data;
+          this.$utilsStore.setLoading(false);
         });
     },
     setFormData() {

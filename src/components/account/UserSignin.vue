@@ -93,7 +93,7 @@ export default {
         });
     },
     setFormData() {
-      this.formData = { email: "okotsmith@gmail.com", password: "123" };
+      this.formData = { email: "okotsmith96@gmail.com", password: "bratz123" };
     },
   },
 };

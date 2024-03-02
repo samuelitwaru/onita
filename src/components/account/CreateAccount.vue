@@ -11,7 +11,7 @@
     <q-dialog v-model="dialogVisible">
       <q-card style="width: 300px">
         <q-card-section class="q-pt-md q-pb-md">
-          <q-card-title class="text-h6">Create Account</q-card-title>
+          <div class="text-h6">Create Account</div>
           <q-select
             v-model="formData.accountType"
             :options="accountTypes"
@@ -52,20 +52,6 @@ export default {
         accountType: "student",
       },
     };
-  },
-  methods: {
-    // openDialog() {
-    //   this.dialogVisible = true;
-    // },
-    // closeDialog() {
-    //   this.dialogVisible = false;
-    // },
-    // createAccount() {
-    //   // Handle account creation based on this.selectedAccountType
-    //   console.log("Creating account type:", this.selectedAccountType);
-    //   // Add your logic here
-    //   this.closeDialog();
-    // },
   },
 };
 </script>

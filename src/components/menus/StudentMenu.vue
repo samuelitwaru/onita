@@ -39,6 +39,7 @@ export default {
         { name: "Dashboard", route: "/dashboard", icon: "dashboard" },
         { name: "Wallet", route: "/dashboard/wallet", icon: "wallet" },
         { name: "Subjects", route: "/dashboard/subjects", icon: "subject" },
+        { name: "Examination", route: "/dashboard/examination", icon: "edit" },
         // {
         //   name: "Examination",
         //   route: "/dashboard/subjects",

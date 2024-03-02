@@ -1,8 +1,21 @@
 <template>
   <q-layout view="lHh Lpr lFf">
+    <q-page-sticky
+      v-if="!leftDrawerOpen"
+      position="top-left"
+      :offset="[11, 11]"
+    >
+      <q-btn
+        round
+        color="primary"
+        icon="menu"
+        aria-label="Menu"
+        @click="leftDrawerOpen = !leftDrawerOpen"
+      />
+    </q-page-sticky>
     <q-drawer v-model="leftDrawerOpen" class="bg-grey-2" show-if-above bordered>
-      <q-card flat class="q-py-sm flex items-center">
-        <router-link to="/dashboard/subjects">
+      <q-card flat class="q-py-sm flex justify-between items-center">
+        <router-link to="/teacher/subjects">
           <q-btn
             class="q-mx-sm"
             block
@@ -17,18 +30,32 @@
 
           <!-- <q-chip class="glossy" label="Term 1" /> -->
         </div>
+
+        <div>
+          <q-btn
+            round
+            dense
+            outline
+            class="q-mx-sm"
+            color="primary"
+            icon="close"
+            aria-label="Menu"
+            v-if="leftDrawerOpen"
+            @click="leftDrawerOpen = !leftDrawerOpen"
+          />
+        </div>
       </q-card>
       <q-separator />
-      <router-link :to="`/subjects/${subject?.id}`">
+      <router-link :to="`/teacher/subjects/${subject?.id}`">
         <q-btn
           style="width: 100%"
           color="accent"
           flat
-          label="Start"
+          label="Topics"
           class="q-mr-sm"
         />
       </router-link>
-      <div v-if="topic">
+      <div v-for="topic in subject?.topics" :key="topic.id">
         <div class="flex justify-between bg-white text-h5 q-pa-md">
           {{ topic.name }}
         </div>
@@ -42,7 +69,7 @@
             class="q-pa-sm"
           >
             <router-link
-              :to="`/subjects/${subject?.id}/topics/${topic.id}/subtopics/${subtopic.id}`"
+              :to="`/teacher/subjects/${subject?.id}/topics/${topic.id}/subtopics/${subtopic.id}`"
               class="text-dark"
               style="width: 100%"
             >
@@ -56,25 +83,6 @@
     </q-drawer>
 
     <q-page-container>
-      <q-card
-        style="background: #00000000"
-        flat
-        bordered
-        class="my-card q-pa-sm q-ma-xs"
-      >
-        <div>
-          <q-btn
-            flat
-            dense
-            round
-            icon="menu"
-            aria-label="Menu"
-            @click="leftDrawerOpen = !leftDrawerOpen"
-          />
-          {{ topic?.name }}
-        </div>
-      </q-card>
-
       <router-view> </router-view>
     </q-page-container>
   </q-layout>
@@ -98,23 +106,10 @@ export default defineComponent({
   },
 
   methods: {
-    getStudentTopicProgress() {
-      this.$api
-        .get(
-          `student-topic-progresses/?student=${this.user.student.id}&subject=${this.$route.params.id}`
-        )
-        .then((res) => {
-          if (res.data.length == 1) {
-            this.topic = res.data[0].topic_detail;
-          }
-        });
-    },
-
     getSubject() {
       this.$api.get(`subjects/${this.$route.params.id}/`).then((res) => {
         this.subject = res.data;
         this.$resStore.setSubject(this.subject);
-        this.getStudentTopicProgress();
       });
     },
 

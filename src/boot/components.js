@@ -17,6 +17,11 @@ import questionEditor from "components/QuestionEditor.vue";
 import testReport from "components/TestReport.vue";
 import myChart from "components/charts/MyChart.vue";
 import flutterwavePayment from "components/FlutterwavePayment.vue";
+import contentEditor from "components/ContentEditor.vue";
+import createExamDialog from "components/CreateExamDialog.vue";
+import createChoiceDialog from "components/CreateChoiceDialog.vue";
+import createQuestionDialog from "components/CreateQuestionDialog.vue";
+import answerChoiceEditor from "components/AnswerChoiceEditor.vue";
 import { createApp } from "vue";
 import App from "../App.vue";
 import VueMathjax from "vue-mathjax-next";
@@ -42,6 +47,11 @@ const components = {
   "test-report": testReport,
   "my-chart": myChart,
   "flutterwave-payment": flutterwavePayment,
+  "content-editor": contentEditor,
+  "create-exam-dialog": createExamDialog,
+  "create-choice-dialog": createChoiceDialog,
+  "create-question-dialog": createQuestionDialog,
+  "answer-choice-editor": answerChoiceEditor,
   "vue-mathjax": VueMathjax,
 };
 

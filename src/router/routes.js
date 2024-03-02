@@ -46,6 +46,18 @@ const routes = [
         component: () => import("components/parts/SubjectList.vue"),
       },
       {
+        path: "examination",
+        component: () => import("pages/ExamHistoryPage.vue"),
+      },
+      {
+        path: "examination/:id",
+        component: () => import("pages/ExamPage.vue"),
+      },
+      {
+        path: "examination/:id/answers",
+        component: () => import("pages/ExamAnswerPage.vue"),
+      },
+      {
         path: "subjects/:id",
         component: () => import("pages/SubjectPage.vue"),
       },
@@ -53,6 +65,74 @@ const routes = [
       {
         path: "account/student",
         component: () => import("pages/StudentAccountPage.vue"),
+      },
+    ],
+  },
+
+  {
+    path: "/teacher/subjects",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [{ path: "", component: () => import("pages/SubjectsPage.vue") }],
+  },
+
+  {
+    path: "/teacher/questions",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/QuestionsPage.vue") },
+      { path: ":id", component: () => import("pages/QuestionPage.vue") },
+    ],
+  },
+
+  {
+    path: "/teacher/examinations",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("pages/TeacherSubmittedExamsPage.vue"),
+      },
+      {
+        path: ":id/answers/:ques_id",
+        component: () => import("pages/TeacherSubmittedExamPage.vue"),
+      },
+    ],
+  },
+
+  {
+    path: "/teacher/subjects",
+    component: () => import("layouts/TeacherSubjectLayout.vue"),
+    children: [
+      {
+        path: ":id",
+        component: () => import("pages/TeacherSubjectPage.vue"),
+      },
+
+      {
+        path: ":id/topics/:topic_id/subtopics/:subtopic_id",
+        component: () => import("pages/TeacherSubjectContentPage.vue"),
+      },
+    ],
+  },
+
+  {
+    path: "/examination",
+    component: () => import("layouts/ExamLayout.vue"),
+    children: [
+      {
+        path: ":id/answers/:ques_id",
+        component: () => import("pages/ExamAnswerPage.vue"),
+      },
+    ],
+  },
+
+  {
+    path: "/examination",
+    component: () => import("layouts/SubmittedExamLayout.vue"),
+    children: [
+      {
+        path: ":id/questions/:ques_id",
+        component: () => import("pages/ExamQuestionPage.vue"),
       },
     ],
   },
