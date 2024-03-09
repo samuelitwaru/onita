@@ -3,7 +3,7 @@
     <div class="flex justify-between">
       <div class="text-h5 q-py-sm">Examination Submissions</div>
     </div>
-    <q-markup-table flat>
+    <q-markup-table>
       <thead>
         <tr>
           <th class="text-left">ID</th>

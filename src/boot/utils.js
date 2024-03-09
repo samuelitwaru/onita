@@ -30,4 +30,31 @@ export default boot(({ app, router, store }) => {
       return `F${aggr}`;
     }
   };
+
+  app.config.globalProperties.$secondsToHoursMinutes = (
+    seconds,
+    returnformatted = true
+  ) => {
+    function addLeadingZero(number) {
+      return number < 10 ? "0" + number : String(number);
+    }
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    if (returnformatted) {
+      return `${hours} Hours, ${addLeadingZero(minutes)} Minutes`;
+    }
+    return { hours, minutes };
+  };
+
+  app.config.globalProperties.$formatTime = (seconds) => {
+    // Calculate hours, minutes, and remaining seconds
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+
+    // Create a formatted time string
+    const formattedTime = `${hours}h ${minutes}m ${remainingSeconds}s`;
+
+    return formattedTime;
+  };
 });

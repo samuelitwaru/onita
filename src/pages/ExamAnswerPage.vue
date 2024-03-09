@@ -1,6 +1,8 @@
 <template>
   <div class="q-pa-lg" v-if="exam.name">
-    <div class="text-h4">{{ exam.name }}</div>
+    <div class="flex justify-between">
+      <div class="text-h4">{{ exam.name }}</div>
+    </div>
     <q-separator spaced />
     <div class="flex justify-between">
       <div class="text-h6">
@@ -33,6 +35,7 @@
           v-if="currentQuestion.question_detail.is_multiple_choice"
           :choices="currentQuestion.question_detail.choices"
           :question="currentQuestion.question_detail"
+          :answer="currentQuestion.answer"
           @choiceChanged="
             currentQuestion.answer = $event;
             updateAnswer($event);
@@ -51,7 +54,11 @@
       </div>
     </div>
 
-    <q-page-sticky position="bottom" :offset="[0, 18]">
+    <q-page-sticky
+      position="bottom"
+      :offset="[0, 18]"
+      v-if="allQuestionsAnswered"
+    >
       <div class="text-center">
         <q-btn
           color="primary"
@@ -74,7 +81,16 @@ export default {
       currentQuestion: {},
     };
   },
-  computed: {},
+  computed: {
+    allQuestionsAnswered() {
+      if (this.exam?.question) {
+        return !this.exam.questions
+          .map((ques) => Boolean(ques.answer))
+          .includes(false);
+      }
+      return false;
+    },
+  },
   created() {
     this.getExam();
   },
@@ -105,11 +121,13 @@ export default {
     },
 
     submitExam() {
-      if (confirm("Are you sure you would like to submit this exam?")) {
+      if (
+        this.allQuestionsAnswered &&
+        confirm("Are you sure you would like to submit this exam?")
+      ) {
         this.$api
           .patch(`exams/${this.$route.params.id}/`, { submitted: true })
           .then((res) => {
-            alert(res.status);
             if (res.status == 200) {
               this.$router.push("/dashboard/examination");
             }

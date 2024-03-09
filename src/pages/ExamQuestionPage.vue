@@ -35,7 +35,7 @@
             >
               <q-item-section avatar>
                 <q-icon
-                  v-if="currentQuestion.answer == choice.id"
+                  v-if="currentQuestion.answer.includes(choice.id)"
                   color="green"
                   name="check"
                 />
@@ -103,6 +103,7 @@ export default {
           this.exam = res.data;
         }
         this.setCurrentQuestion();
+        this.setAnswer();
       });
     },
 
@@ -119,6 +120,19 @@ export default {
       )[0];
       this.formData.score = this.currentQuestion.score;
       this.formData.comment = this.currentQuestion.comment;
+    },
+
+    setAnswer() {
+      if (
+        this.currentQuestion.question_detail.is_multiple_choice &&
+        this.currentQuestion.answer
+      ) {
+        var ans = this.currentQuestion.answer
+          .replace("[", "")
+          .replace("]", "")
+          .split(",");
+        this.currentQuestion.answer = ans.map((val) => parseInt(val));
+      }
     },
   },
 

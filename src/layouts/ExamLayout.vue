@@ -15,7 +15,7 @@
     </q-page-sticky>
     <q-drawer v-model="leftDrawerOpen" class="bg-grey-2" show-if-above bordered>
       <q-card flat class="q-py-sm flex justify-between items-center">
-        <router-link to="/dashboard/examination">
+        <a href="/dashboard/examination">
           <q-btn
             class="q-mx-sm"
             block
@@ -24,7 +24,7 @@
             dense
             icon="arrow_back"
           />
-        </router-link>
+        </a>
         <div class="text-h6 q-px-md q-py-xs">
           {{ exam?.name }}
 
@@ -46,15 +46,6 @@
         </div>
       </q-card>
       <q-separator />
-      <!-- <router-link :to="`/teacher/subjects/${subject?.id}`">
-        <q-btn
-          style="width: 100%"
-          color="accent"
-          flat
-          label="Topics"
-          class="q-mr-sm"
-        />
-      </router-link> -->
       <div>
         <div class="flex justify-between bg-white text-h5 q-pa-md">SECTION</div>
         <q-list dense bordered separator style="max-width: 318px">
@@ -81,6 +72,16 @@
     </q-drawer>
 
     <q-page-container>
+      <div class="text-right">
+        <q-chip
+          outline
+          square
+          color="red"
+          text-color="white"
+          icon="alarm"
+          :label="$formatTime(exam.total_time - exam.time_taken)"
+        />
+      </div>
       <router-view> </router-view>
     </q-page-container>
   </q-layout>
@@ -88,18 +89,20 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-
+const updateTimeTakenEvery = 15;
 export default defineComponent({
   data() {
     return {
       user: this.$authStore.currentUser,
       exam: null,
       leftDrawerOpen: false,
+      updateTimeTakenEvery: updateTimeTakenEvery,
     };
   },
 
   created() {
     this.getExam();
+    setTimeout(this.countDown, 1000);
   },
 
   methods: {
@@ -108,6 +111,45 @@ export default defineComponent({
         this.exam = res.data;
         // this.$resStore.setSubject(this.subject);
       });
+    },
+
+    autoSubmitExam() {
+      this.$api
+        .patch(`exams/${this.$route.params.id}/`, {
+          submitted: true,
+          time_taken: this.exam.time_taken,
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.$router.push("/dashboard/examination");
+          }
+        });
+    },
+
+    updateExamTimeTaken() {
+      this.$api
+        .patch(`exams/${this.$route.params.id}/`, {
+          time_taken: this.exam.time_taken,
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            console.log(res.data);
+          }
+        });
+    },
+
+    countDown() {
+      this.exam.time_taken += 1;
+      this.updateTimeTakenEvery -= 1;
+      if (this.updateTimeTakenEvery == 0) {
+        this.updateExamTimeTaken();
+        this.updateTimeTakenEvery = updateTimeTakenEvery;
+      }
+      if (this.exam.time_taken < this.exam.total_time) {
+        setTimeout(this.countDown, 1000);
+      } else {
+        this.autoSubmitExam();
+      }
     },
   },
 });

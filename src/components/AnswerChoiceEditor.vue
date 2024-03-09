@@ -28,7 +28,7 @@
 </template>
 <script>
 export default {
-  props: ["choices", "question"],
+  props: ["choices", "question", "answer"],
   data() {
     return {
       formData: {
@@ -36,6 +36,23 @@ export default {
         choices: [],
       },
     };
+  },
+
+  created() {
+    this.setAnswer();
+  },
+
+  methods: {
+    setAnswer() {
+      if (this.answer) {
+        var ans = this.answer.replace("[", "").replace("]", "").split(",");
+        if (this.question.has_multiple_choices) {
+          this.formData.choices = ans.map((val) => parseInt(val));
+        } else {
+          this.formData.choice = ans.map((val) => parseInt(val))[0];
+        }
+      }
+    },
   },
 
   computed: {
@@ -48,7 +65,7 @@ export default {
 
   watch: {
     "formData.choice": function (newVal, oldVal) {
-      this.$emit("choiceChanged", `${newVal}`);
+      this.$emit("choiceChanged", `[${newVal}]`);
     },
     "formData.choices": function (newVal, oldVal) {
       this.$emit("choiceChanged", `${newVal}`);

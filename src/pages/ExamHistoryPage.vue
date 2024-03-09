@@ -38,9 +38,9 @@
             />
           </td>
           <td>
-            <router-link :to="`/dashboard/examination/${exam.id}`">
+            <a :href="`/dashboard/examination/${exam.id}`">
               <q-btn color="primary" label="view" outline />
-            </router-link>
+            </a>
             <q-btn
               color="primary"
               icon="close"
