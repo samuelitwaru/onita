@@ -1,5 +1,6 @@
 <template lang="">
   <div>
+    <small class="component-label">ContentPage</small>
     <q-card
       v-for="section in sections"
       :key="section"

@@ -8,7 +8,7 @@ import loadingComponent from "components/utils/LoadingComponent.vue";
 import messageBox from "components/utils/MessageBox.vue";
 import alertMsg from "components/utils/AlertMsg.vue";
 import errorMessageModal from "components/utils/ErrorMessageModal.vue";
-import levelCardList from "components/parts/levelCardList.vue";
+// import levelCardList from "components/parts/levelCardList.vue";
 import questionBrowser from "components/parts/QuestionBrowser.vue";
 import createAccount from "components/account/CreateAccount.vue";
 import mathjaxComponent from "components/utils/MathjaxComponent.vue";
@@ -21,10 +21,13 @@ import contentEditor from "components/ContentEditor.vue";
 import createExamDialog from "components/CreateExamDialog.vue";
 import createChoiceDialog from "components/CreateChoiceDialog.vue";
 import createQuestionDialog from "components/CreateQuestionDialog.vue";
+import createTopicQuestionDialog from "components/CreateTopicQuestionDialog.vue";
+import createTacherSubject from "components/CreateTeacherSubject.vue";
 import answerChoiceEditor from "components/AnswerChoiceEditor.vue";
 import { createApp } from "vue";
 import App from "../App.vue";
 import VueMathjax from "vue-mathjax-next";
+import createNotesDialog from "src/components/CreateNotesDialog.vue";
 createApp(App).use(VueMathjax).mount("#app");
 
 const components = {
@@ -38,7 +41,7 @@ const components = {
   "message-box": messageBox,
   "alert-msg": alertMsg,
   "error-message-modal": errorMessageModal,
-  "level-card-list": levelCardList,
+  // "level-card-list": levelCardList,
   "question-browser": questionBrowser,
   "create-account": createAccount,
   "mathjax-component": mathjaxComponent,
@@ -51,6 +54,9 @@ const components = {
   "create-exam-dialog": createExamDialog,
   "create-choice-dialog": createChoiceDialog,
   "create-question-dialog": createQuestionDialog,
+  "create-topic-question-dialog": createTopicQuestionDialog,
+  "create-teacher-subject": createTacherSubject,
+  "create-notes-dialog": createNotesDialog,
   "answer-choice-editor": answerChoiceEditor,
   "vue-mathjax": VueMathjax,
 };

@@ -1,15 +1,14 @@
-<template lang="">
+<template lang>
   <div>
     <q-btn color="primary" label="Add Choice" @click="show = true" />
     <q-dialog v-model="show">
       <q-card style="min-width: 400px">
         <div class="text-h5 q-px-md q-my-md">Add Choice</div>
         <q-separator spaced />
-        <q-card-section class="">
+        <q-card-section class>
           <content-editor
             :content="formData.text"
-            @contentChanged="formData.text = $event"
-          />
+            @contentChanged="formData.text = $event" />
 
           <q-checkbox v-model="formData.is_correct" label="Is Correct" />
         </q-card-section>
@@ -49,4 +48,4 @@ export default {
   },
 };
 </script>
-<style lang=""></style>
+<style lang></style>

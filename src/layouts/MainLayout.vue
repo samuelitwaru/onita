@@ -43,16 +43,21 @@ import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "MainLayout",
-
-  setup() {
-    const leftDrawerOpen = ref(false);
-
+  data() {
     return {
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value;
-      },
+      leftDrawerOpen: false,
     };
+  },
+  created() {
+    if (!this.$authStore.currentUser) {
+      location.href = "/account/login";
+    }
+  },
+
+  methods: {
+    toggleLeftDrawer() {
+      this.leftDrawerOpen = !this.leftDrawerOpen;
+    },
   },
 });
 </script>

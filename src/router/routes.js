@@ -1,7 +1,7 @@
 const routes = [
   {
     path: "/",
-    component: () => import("layouts/IndexLayout.vue"),
+    component: () => import("layouts/indexLayout.vue"),
     children: [
       { path: "", component: () => import("pages/WelcomePage.vue") },
 
@@ -66,20 +66,75 @@ const routes = [
         path: "account/student",
         component: () => import("pages/StudentAccountPage.vue"),
       },
+      {
+        path: "rte",
+        component: () => import("pages/RTEPage.vue"),
+      },
     ],
   },
 
   {
-    path: "/teacher/subjects",
+    path: "/teacher",
     component: () => import("layouts/MainLayout.vue"),
-    children: [{ path: "", component: () => import("pages/SubjectsPage.vue") }],
+    children: [
+      {
+        path: "subjects",
+        component: () => import("pages/TeacherSubjectsPage.vue"),
+      },
+      {
+        path: "questions",
+        component: () => import("pages/TeacherQuestionsPage.vue"),
+      },
+      {
+        path: "examinations",
+        component: () => import("pages/TeacherExamsPage.vue"),
+      },
+      {
+        path: "tests",
+        component: () => import("pages/TeacherPendingTests.vue"),
+      },
+      {
+        path: "schools",
+        component: () => import("pages/TeacherSchoolsPage.vue"),
+      },
+      {
+        path: "notes",
+        component: () => import("pages/TeacherNotesPage.vue"),
+      },
+    ],
+  },
+
+  {
+    path: "/teacher/notes",
+    component: () => import("layouts/TeacherNotesLayout.vue"),
+    children: [
+      {
+        path: ":notes_id",
+        component: () => import("pages/TeacherNotes.vue"),
+      },
+      {
+        path: ":notes_id/topics/:topic_id",
+        component: () => import("pages/TeacherNotesTopic.vue"),
+      },
+      {
+        path: ":notes_id/topics/:topic_id/test",
+        component: () => import("pages/TeacherNotesTest.vue"),
+      },
+      {
+        path: ":notes_id/topics/:topic_id/test/questions/:topic_question_id",
+        component: () => import("pages/TopicQuestionPage.vue"),
+      },
+      {
+        path: ":notes_id/topics/:topic_id/subtopics/:subtopic_id",
+        component: () => import("pages/TeacherNotesSubtopic.vue"),
+      },
+    ],
   },
 
   {
     path: "/teacher/questions",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/QuestionsPage.vue") },
       { path: ":id", component: () => import("pages/QuestionPage.vue") },
     ],
   },
@@ -89,15 +144,13 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
-        path: "",
-        component: () => import("pages/TeacherSubmittedExamsPage.vue"),
-      },
-      {
         path: ":id/answers/:ques_id",
         component: () => import("pages/TeacherSubmittedExamPage.vue"),
       },
     ],
   },
+
+
 
   {
     path: "/teacher/subjects",
@@ -111,6 +164,17 @@ const routes = [
       {
         path: ":id/topics/:topic_id/subtopics/:subtopic_id",
         component: () => import("pages/TeacherSubjectContentPage.vue"),
+      },
+    ],
+  },
+
+  {
+    path: "/teacher/tests",
+    component: () => import("layouts/TeacherTestLayout.vue"),
+    children: [
+      {
+        path: ":student_id/:topic_id",
+        component: () => import("pages/TeacherTestPage.vue"),
       },
     ],
   },
@@ -139,7 +203,7 @@ const routes = [
 
   {
     path: "/test",
-    component: () => import("layouts/IndexLayout.vue"),
+    component: () => import("layouts/indexLayout.vue"),
     children: [{ path: "", component: () => import("pages/ListTemplate.vue") }],
   },
 
@@ -166,22 +230,29 @@ const routes = [
   },
 
   {
-    path: "/subjects",
-    component: () => import("layouts/SubjectLayout2.vue"),
+    path: "/notes",
+    component: () => import("layouts/NotesLayout.vue"),
     children: [
       {
-        path: ":id",
-        component: () => import("pages/SubjectPage.vue"),
+        path: ":notes_id",
+        component: () => import("pages/NotesPage.vue"),
+      },
+      {
+        path: ":notes_id/topics/:topic_id",
+        component: () => import("pages/NotesTopic.vue"),
+      },
+      {
+        path: ":notes_id/topics/:topic_id/next",
+        component: () => import("pages/NotesNextTopic.vue"),
+      },
+      {
+        path: ":notes_id/topics/:topic_id/subtopics/:subtopic_id",
+        component: () => import("components/NotesSubtopic.vue"),
       },
 
       {
-        path: ":id/topics/:topic_id/subtopics/:subtopic_id",
-        component: () => import("components/SubjectContent.vue"),
-      },
-
-      {
-        path: ":id/topics/:topic_id/test",
-        component: () => import("components/TopicTest.vue"),
+        path: ":notes_id/topics/:topic_id/test",
+        component: () => import("components/NotesTest.vue"),
       },
 
       {
@@ -193,6 +264,54 @@ const routes = [
         path: ":id/content",
         component: () => import("pages/ContentPage.vue"),
       },
+    ],
+  },
+
+  {
+    path: "/school",
+    component: () => import("layouts/SchoolLayout.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("pages/school/SchoolHomePage.vue"),
+      },
+
+      {
+        path: "students",
+        component: () => import("pages/school/SchoolStudentsPage.vue"),
+      },
+
+      {
+        path: "teachers",
+        component: () => import("pages/school/SchoolTeachersPage.vue"),
+      },
+
+      {
+        path: "wallet",
+        component: () => import("pages/WalletPage.vue"),
+      },
+
+      {
+        path: "profile",
+        component: () => import("pages/school/SchoolProfilePage.vue"),
+      },
+    ],
+  },
+
+  {
+    path: "/school/performance",
+    component: () => import("layouts/SchoolPerformanceLayout.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("pages/school/SchoolPerformancePage.vue"),
+      },
+      {
+        path: ":id",
+        component: () => import("pages/school/SchoolLevelPerformancePage.vue"),
+      },
+
+
     ],
   },
 

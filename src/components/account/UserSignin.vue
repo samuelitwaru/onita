@@ -75,7 +75,6 @@ export default {
   methods: {
     login() {
       this.$utilsStore.setLoading(true);
-
       this.formData["username"] = this.formData["email"];
       this.$api
         .post(`/users/login/`, this.formData)
@@ -85,6 +84,12 @@ export default {
           this.$authStore.setUserAndToken(user, token);
           this.$utilsStore.setLoading(false);
           var _next = this.$route.query._next || "/dashboard";
+          if (user.school.id) {
+            _next = "/school";
+          } else if (user.teacher.id) {
+            _next = "/teacher/subjects";
+          }
+
           this.$router.push(_next);
         })
         .catch((err) => {
@@ -93,7 +98,10 @@ export default {
         });
     },
     setFormData() {
-      this.formData = { email: "okotsmith96@gmail.com", password: "bratz123" };
+      this.formData = {
+        email: "samuelitwaru@outlook.com",
+        password: "bratz123",
+      };
     },
   },
 };

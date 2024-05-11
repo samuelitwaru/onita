@@ -1,5 +1,7 @@
 <template lang="">
   <div class="q-pa-sm" v-if="question">
+    <small class="component-label">CreateQuestionPage</small>
+
     <div></div>
 
     <div class="q-px-sm flex justify-between">

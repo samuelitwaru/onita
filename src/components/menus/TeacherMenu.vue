@@ -36,14 +36,30 @@ export default {
     return {
       user: this.$authStore.currentUser,
       menuItems: [
-        { name: "Dashboard", route: "/dashboard", icon: "dashboard" },
+        // { name: "Dashboard", route: "/dashboard", icon: "dashboard" },
         { name: "My Subjects", route: "/teacher/subjects", icon: "subject" },
-        { name: "Questions", route: "/teacher/questions", icon: "edit" },
+        // { name: "Questions", route: "/teacher/questions", icon: "edit" },
+        // {
+        //   name: "Examinations",
+        //   route: "/teacher/examinations",
+        //   icon: "edit_note",
+        // },
         {
-          name: "Examinations",
-          route: "/teacher/examinations",
-          icon: "edit_note",
+          name: "My Notes",
+          route: "/teacher/notes",
+          icon: "note",
         },
+        {
+          name: "Pending Tests",
+          route: "/teacher/tests",
+          icon: "access_time_filled",
+        },
+        // {
+        //   name: "Schools",
+        //   route: "/teacher/schools",
+        //   icon: "school",
+        // },
+
         // { name: "Wallet", route: "/dashboard/wallet", icon: "wallet" },
         // // {
         // //   name: "Examination",

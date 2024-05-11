@@ -50,6 +50,12 @@ export default {
           route: "/dashboard/account/student",
           icon: "person",
         },
+
+        // {
+        //   name: "RTE",
+        //   route: "/dashboard/rte",
+        //   icon: "",
+        // },
       ],
     };
   },

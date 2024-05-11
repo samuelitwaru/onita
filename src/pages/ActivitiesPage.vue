@@ -1,5 +1,6 @@
 <template>
   <div>
+    <small class="component-label">ActivitiesPage</small>
     <q-splitter
       v-model="splitterModel"
       :limits="[50, 100]"

@@ -36,14 +36,17 @@ export default {
     onChange(data) {
       //console.log(data);
       // this.content = data;
-      this.$emit("contentChanged", data);
+      //this.$emit("contentChanged", data);
     },
 
-    emitBlurEvent() {
-      var ctx = this;
-      setTimeout(function () {
-        ctx.$emit("blur", ctx.editorData);
-      }, 1000);
+    emitBlurEvent(e) {
+      console.log(this.editorData);
+      this.$emit("contentChanged", this.editorData);
+
+      // var ctx = this;
+      // setTimeout(function () {
+      //   ctx.$emit("blur", ctx.editorData);
+      // }, 1000);
     },
   },
   watch: {

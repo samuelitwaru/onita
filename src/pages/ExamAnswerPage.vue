@@ -83,7 +83,7 @@ export default {
   },
   computed: {
     allQuestionsAnswered() {
-      if (this.exam?.question) {
+      if (this.exam?.questions) {
         return !this.exam.questions
           .map((ques) => Boolean(ques.answer))
           .includes(false);
