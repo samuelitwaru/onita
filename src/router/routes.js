@@ -238,6 +238,10 @@ const routes = [
         component: () => import("pages/NotesPage.vue"),
       },
       {
+        path: ":notes_id/enroll",
+        component: () => import("pages/NotesEnrollmentPage.vue"),
+      },
+      {
         path: ":notes_id/topics/:topic_id",
         component: () => import("pages/NotesTopic.vue"),
       },

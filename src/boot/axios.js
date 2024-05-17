@@ -8,14 +8,15 @@ import axios from "axios";
 // "export default () => {}" function below (which runs individually
 // for each client)
 var baseURL = process.env.DEBUG
-  ? "http://127.0.0.1:8000/api"
-  : "https://onita.pythonanywhere.com/api";
+  ? "http://127.0.0.1:8000"
+  : "https://onita.pythonanywhere.com";
 
-const api = axios.create({ baseURL: baseURL });
+const api = axios.create({ baseURL: `${baseURL}/api` });
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
 
+  app.config.globalProperties.$baseURL = baseURL;
   app.config.globalProperties.$axios = axios;
   // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)
   //       so you won't necessarily have to import axios in each vue file

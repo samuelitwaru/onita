@@ -9,14 +9,6 @@
 
           <q-separator spaced />
           <q-card-section class="q-pa-sm">
-            <q-input
-              outlined
-              dense
-              v-model="formData.title"
-              type="text"
-              label="Title"
-            />
-            <br />
             <q-select
               required
               outlined

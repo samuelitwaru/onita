@@ -130,6 +130,7 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.getTeacherSubjects();
+            this.$emit("teacher-subject-created");
           }
         });
     },

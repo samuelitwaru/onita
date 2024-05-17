@@ -1,18 +1,27 @@
 <template>
   <div>
-    <div class="text-h5 q-pa-md">My Subjects</div>
+    <div class="text-h5 q-pa-md">Subjects</div>
     <div class="flex q-pa-sm">
       <q-card
         v-for="note in notes"
         :key="note"
         class="my-card q-ma-sm"
-        style="min-width: 200px"
+        style="min-width: 300px"
       >
-        <q-img src="~assets/onita-logo.923195d3.png">
+        <q-img
+          :src="
+            note.subject_detail.image ||
+            `${this.$baseURL}/media/subjects/onita-logo.923195d3.png`
+          "
+        >
           <div class="absolute-bottom">
             <div class="text-h6">{{ note.title }}</div>
             <div class="text-subtitle2">
               {{ note.subject_detail.learning_center_name }} Level
+            </div>
+            <q-separator spaced />
+            <div class="text-subtitle2">
+              By {{ note.teacher_detail.full_name }}
             </div>
           </div>
         </q-img>
@@ -21,12 +30,9 @@
           <router-link v-if="note.isLogged" :to="`/notes/${note.id}`">
             <q-btn color="primary" label="Study" />
           </router-link>
-          <q-btn
-            v-else
-            color="accent"
-            label="enroll"
-            @click="enroll(note.id)"
-          />
+          <router-link v-else :to="`/notes/${note.id}`">
+            <q-btn color="accent" label="enroll (10,000 UGX)" />
+          </router-link>
         </q-card-actions>
       </q-card>
     </div>
@@ -54,9 +60,7 @@ export default defineComponent({
   methods: {
     getNotes() {
       this.$api
-        .get(
-          `notes/?learning_center=${this.user.student.level.learning_center}`
-        )
+        .get(`notes/?level=${this.user.student.level.id}&is_published=false`)
         .then((res) => {
           this.notes = res.data.map((note) => {
             var logs = this.notes_logs.filter((log) => log.notes == note.id);
@@ -72,7 +76,6 @@ export default defineComponent({
       this.$api
         .get(`student-notes-logs/?student=${this.user.student.id}`)
         .then((res) => {
-          console.log(res.data);
           this.notes_logs = res.data;
           this.getNotes();
         });
@@ -87,7 +90,6 @@ export default defineComponent({
           topic: null,
         })
         .then((res) => {
-          console.log(res.data);
           this.notes_logs = res.data;
           this.getStudentNotesLogs();
         });

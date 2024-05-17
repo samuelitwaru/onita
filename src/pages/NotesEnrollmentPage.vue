@@ -1,7 +1,6 @@
 <template lang>
   <div class="q-pa-sm my-auto" v-if="note">
     <small class="component-label">NotesPage</small>
-
     <div class="row">
       <div class="col-md-2 text-h2 text-right"></div>
       <div class="col text-center">
@@ -28,12 +27,6 @@
             <tr>
               <td class="text-left"><strong>Your Progress</strong></td>
               <td class="text-left">{{ calculateProgress() }}%</td>
-            </tr>
-            <tr v-if="!notes_logs.length">
-              <td class="text-left"><strong>Enroll</strong></td>
-              <td class="text-left">
-                <q-btn color="accent" label="enroll" @click="enroll" />
-              </td>
             </tr>
           </tbody>
         </q-markup-table>
@@ -71,13 +64,11 @@ export default {
     },
     getStudentNotesLogs() {
       this.$api
-        .get(
-          `student-notes-logs/?student=${this.user.student.id}&notes=${this.$route.params.notes_id}`
-        )
+        .get(`student-notes-logs/?student=${this.user.student.id}`)
         .then((res) => {
           this.notes_logs = res.data;
-          if (this.notes_logs.length)
-            this.last_log = this.notes_logs[this.notes_logs.length - 1];
+          this.last_log = this.notes_logs.pop();
+          this.getTopic(this.last_log.topic);
         });
     },
     getTopic(topic_id) {
@@ -94,23 +85,8 @@ export default {
         (log) => log.note != "TESTED"
       ).length;
       var total_topics = this.note.topics.length;
-      if (total_topics == 0) return 0;
       var progress = (topics_covered / total_topics) * 100;
-      return Math.round(progress);
-    },
-    enroll() {
-      this.$api
-        .post(`student-notes-logs/`, {
-          note: "ENROLLED",
-          student: this.user.student.id,
-          notes: this.$route.params.notes_id,
-          topic: null,
-        })
-        .then((res) => {
-          console.log(res.data);
-          this.notes_logs = res.data;
-          this.getStudentNotesLogs();
-        });
+      return progress;
     },
   },
 };

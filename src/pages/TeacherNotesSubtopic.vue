@@ -32,16 +32,6 @@
     >
       <vue-mathjax :safe="false" :formula="subtopic.content"></vue-mathjax>
     </q-card>
-    <q-page-sticky class="bg-white" position="top-right" :offset="[18, 18]">
-      <q-btn-toggle
-        v-model="viewMode"
-        toggle-color="primary"
-        :options="[
-          { label: 'Editor', value: 'editor' },
-          { label: 'Preview', value: 'preview' },
-        ]"
-      />
-    </q-page-sticky>
   </div>
 </template>
 <script>

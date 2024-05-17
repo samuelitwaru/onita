@@ -13,8 +13,16 @@
         @click="leftDrawerOpen = !leftDrawerOpen"
       />
     </q-page-sticky>
+
+    <q-page-sticky class="bg-white" position="top-right" :offset="[8, 10]">
+      <q-btn color="primary" label="Publish" @click="publishNotes" />
+    </q-page-sticky>
     <q-drawer v-model="leftDrawerOpen" class="bg-grey-2" show-if-above bordered>
-      <q-card flat class="q-py-sm row justify-between items-center">
+      <q-card
+        style="width: 100%"
+        flat
+        class="q-py-sm row justify-between items-center"
+      >
         <router-link class="col-1" to="/teacher/notes">
           <q-btn
             class="q-mx-sm"
@@ -148,6 +156,17 @@ export default defineComponent({
       this.$api.get(`notes/${this.$route.params.notes_id}/`).then((res) => {
         this.notes = res.data;
       });
+    },
+    publishNotes() {
+      if (confirm("Publish Notes?")) {
+        this.$api
+          .patch(`notes/${this.$route.params.notes_id}/`, {
+            is_published: true,
+          })
+          .then((res) => {
+            this.notes = res.data;
+          });
+      }
     },
     createTopic() {
       this.formData.notes = this.$route.params.notes_id;

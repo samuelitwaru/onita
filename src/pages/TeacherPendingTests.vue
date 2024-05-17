@@ -26,7 +26,7 @@
     </q-markup-table>
 
     <div v-if="logs.length == 0" class="text-center q-py-lg q-my-lg text-grey">
-      No logs found
+      No pending tests found
     </div>
   </div>
 </template>
