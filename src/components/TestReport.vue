@@ -95,7 +95,7 @@ export default {
       if (this.report.student_progress.id) {
         this.$api
           .patch(
-            `student-topic-progresses/${this.report.student_progress.id}/`,
+            `student-notes-progresses/${this.report.student_progress.id}/`,
             { topic: this.report.next_topic.id }
           )
           .then((res) => {

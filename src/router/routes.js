@@ -57,10 +57,10 @@ const routes = [
         path: "examination/:id/answers",
         component: () => import("pages/ExamAnswerPage.vue"),
       },
-      {
-        path: "subjects/:id",
-        component: () => import("pages/SubjectPage.vue"),
-      },
+      // {
+      //   path: "subjects/:id",
+      //   component: () => import("pages/SubjectPage.vue"),
+      // },
 
       {
         path: "account/student",
@@ -139,27 +139,25 @@ const routes = [
     ],
   },
 
-  {
-    path: "/teacher/examinations",
-    component: () => import("layouts/MainLayout.vue"),
-    children: [
-      {
-        path: ":id/answers/:ques_id",
-        component: () => import("pages/TeacherSubmittedExamPage.vue"),
-      },
-    ],
-  },
-
-
+  // {
+  //   path: "/teacher/examinations",
+  //   component: () => import("layouts/MainLayout.vue"),
+  //   children: [
+  //     {
+  //       path: ":id/answers/:ques_id",
+  //       component: () => import("pages/TeacherSubmittedExamPage.vue"),
+  //     },
+  //   ],
+  // },
 
   {
     path: "/teacher/subjects",
     component: () => import("layouts/TeacherSubjectLayout.vue"),
     children: [
-      {
-        path: ":id",
-        component: () => import("pages/TeacherSubjectPage.vue"),
-      },
+      // {
+      //   path: ":id",
+      //   component: () => import("pages/TeacherSubjectPage.vue"),
+      // },
 
       {
         path: ":id/topics/:topic_id/subtopics/:subtopic_id",
@@ -242,6 +240,10 @@ const routes = [
         component: () => import("pages/NotesEnrollmentPage.vue"),
       },
       {
+        path: ":notes_id/content",
+        component: () => import("pages/NotesContentPage1.vue"),
+      },
+      {
         path: ":notes_id/topics/:topic_id",
         component: () => import("pages/NotesTopic.vue"),
       },
@@ -314,8 +316,6 @@ const routes = [
         path: ":id",
         component: () => import("pages/school/SchoolLevelPerformancePage.vue"),
       },
-
-
     ],
   },
 

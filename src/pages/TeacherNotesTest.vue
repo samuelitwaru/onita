@@ -34,6 +34,10 @@
       </tbody>
     </q-markup-table>
 
+    <div class="text-center" v-if="!questions?.length">
+      <p class="q-my-xl text-grey">No questions added</p>
+    </div>
+
     <br />
 
     <div class="text-h5 q-py-sm">Add Question</div>
@@ -95,41 +99,70 @@ export default {
         time: 2,
         mark: 2,
         topic: this.$route.params.topic_id,
+        test: null,
       },
     };
   },
 
   created() {
-    this.getQuestions();
+    this.getTopic();
   },
 
   methods: {
-    getQuestions(args = {}) {
-      var queryString = this.$buildURLQuery(args);
-      this.$api
-        .get(`topic-questions/?topic=${this.$route.params.topic_id}`)
-        .then((res) => {
-          this.questions = res.data;
-        });
+    getTopic() {
+      this.$api.get(`topics/${this.$route.params.topic_id}`).then((res) => {
+        this.topic = res.data;
+        this.test = this.topic?.test_detail;
+        this.questions = this.test?.questions;
+      });
     },
 
     createQuestion() {
-      this.formData.time = this.convertTimeStringToMinutes(
-        this.formData.formattedTime
-      );
-      this.$api.post(`topic-questions/`, this.formData).then((res) => {
-        if (res.status == 201) {
-          (this.formData.time = "00:02:00"), (this.formData.text = "");
-          this.getQuestions();
-        }
-      });
+      if (this.test) {
+        this.formData.time = this.convertTimeStringToMinutes(
+          this.formData.formattedTime
+        );
+        this.formData.test = this.test.id;
+        console.log(this.formData);
+        this.$api.post(`topic-questions/`, this.formData).then((res) => {
+          if (res.status == 201) {
+            (this.formData.time = "00:02:00"), (this.formData.text = "");
+            this.getTopic();
+          }
+        });
+      } else {
+        this.$api
+          .post(`tests/`, {
+            name: this.topic.name,
+            topic: this.topic.id,
+          })
+          .then((res) => {
+            if ((res.status = 201)) {
+              console.log(res.data);
+              console.log({
+                test: res.data.id,
+              });
+              console.log(this.$route.params.topic_id);
+              this.$api
+                .patch(`topics/${this.$route.params.topic_id}/`, {
+                  test: res.data.id,
+                })
+                .then((res) => {
+                  if ((res.status = 200)) {
+                    this.getTopic();
+                    this.createQuestion();
+                  }
+                });
+            }
+          });
+      }
     },
 
     deleteTopicQuestion(quesId) {
       if (confirm("Are you sure you would like to delete this question?")) {
         this.$api.delete(`topic-questions/${quesId}`).then((res) => {
           if (res.status == 204) {
-            this.getQuestions();
+            this.getTopic();
           }
         });
       }
@@ -147,7 +180,7 @@ export default {
 
   watch: {
     "$route.params.topic_id": function (newVal, oldVal) {
-      this.getQuestions();
+      this.getTopic();
     },
   },
 };

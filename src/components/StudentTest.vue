@@ -2,6 +2,7 @@
   <div class="q-pa-lg">
     <div class="flex justify-between">
       <div class="text-h4">Progress Test</div>
+      {{ progress }}
       <q-btn
         v-if="last_log?.note != 'TESTED'"
         color="primary"
@@ -89,59 +90,24 @@
 </template>
 <script>
 export default {
+  props: ['progress'],
   data() {
     return {
       questions: [],
       currentQuestion: null,
       questionIndex: 0,
-      test: null,
-      topics: [],
-      report: null,
       student: this.$authStore.currentUser.student,
-      notes_logs: [],
-      last_log: null,
     };
-  },
-
-  computed: {
-    currentTopic() {
-      if (this.topics.length) {
-        return this.topics.filter(
-          (topic) => topic.id == this.$route.params.topic_id
-        )[0];
-      }
-      return null;
-    },
   },
 
   created() {
     this.getQuestions();
-    this.getTopics();
-    this.getStudentNotesLogs();
   },
 
   methods: {
-    getTopics() {
+    getQuestions() {
       this.$api
-        .get(`topics/?notes=${this.$route.params.notes_id}`)
-        .then((res) => {
-          this.topics = res.data;
-        });
-    },
-    getStudentNotesLogs() {
-      this.$api
-        .get(
-          `student-notes-logs/?student=${this.student.id}&notes=${this.$route.params.notes_id}&topic=${this.$route.params.topic_id}`
-        )
-        .then((res) => {
-          this.notes_logs = res.data;
-          this.last_log = this.notes_logs.pop();
-        });
-    },
-    getQuestions(args = {}) {
-      var queryString = this.$buildURLQuery(args);
-      this.$api
-        .get(`topic-questions/?topic=${this.$route.params.topic_id}`)
+        .get(`topic-questions/?topic=${this.progress.topic}`)
         .then((res) => {
           this.questions = res.data;
           for (let index = 0; index < this.questions.length; index++) {
@@ -168,38 +134,11 @@ export default {
 
     submitTest() {
       if (confirm("Confirm submission?")) {
-        var data = {
-          notes: this.$route.params.notes_id,
-          student: this.student.id,
-          topic: this.$route.params.topic_id,
-          status: "TESTED",
-        };
-        this.$api.post(`student-notes-logs/`, data).then((res) => {
-          if ((res.status = 201)) {
-            this.last_log = res.data;
-          }
-        });
+        this.$emit('submit-test')
       }
     },
 
-    nextTopic() {
-      var index = this.topics.findIndex(
-        (topic) => topic.order == this.currentTopic.order + 1
-      );
-      var topic = this.topics[index];
-      var data = {
-        notes: this.$route.params.notes_id,
-        student: this.student.id,
-        topic: topic.id,
-        note: "ENROLLED",
-      };
-      this.$api.post(`student-notes-logs/`, data).then((res) => {
-        if ((res.status = 201)) {
-          this.last_log = res.data;
-        }
-      });
-      document.location = `/notes/${this.$route.params.notes_id}/`;
-    },
+
 
     getCurrentQuestionAnswer() {
       this.$api

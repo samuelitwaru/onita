@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="flex q-pa-sm">
+    <div class="flex justify-center q-pa-sm">
       <q-card
         v-for="note in notes"
         :key="note"
         class="my-card q-ma-sm text-center"
-        style="min-width: 300px; min-height: 300px"
+        style="min-width: 200px; min-height: 200px"
       >
         <q-card-section>
           <div class="text-h6">{{ note.subject_detail.name }}</div>
@@ -17,6 +17,17 @@
           <div class="text-h2">{{ calculateProgress(note) }}%</div>
         </q-card-section>
       </q-card>
+    </div>
+    <div v-if="!notes.length">
+      <p class="q-mt-lg q-pt-lg text-center text-h3 text-grey">
+        You do not have any subjects enrolled.
+      </p>
+      <p class="text-center">
+        Go to
+        <router-link to="/dashboard/subjects">
+          <q-btn color="primary" label="SUBJECTS" flat />
+        </router-link>
+      </p>
     </div>
   </div>
   <!-- <apexchart

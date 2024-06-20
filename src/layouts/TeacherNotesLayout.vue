@@ -1,5 +1,17 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hhh Lpr fff">
+    <q-header reveal bordered class="bg-primary text-white" height-hint="98">
+      <q-toolbar>
+        <router-link to="/teacher/notes">
+          <q-btn class="q-mx-sm text-white" outline dense icon="arrow_back" />
+        </router-link>
+        <q-toolbar-title>
+          {{ notes?.title }}
+        </q-toolbar-title>
+        <q-btn color="white" outline label="Publish" @click="publishNotes" />
+      </q-toolbar>
+    </q-header>
+
     <q-page-sticky
       v-if="!leftDrawerOpen"
       position="top-left"
@@ -15,59 +27,34 @@
     </q-page-sticky>
 
     <q-page-sticky class="bg-white" position="top-right" :offset="[8, 10]">
-      <q-btn color="primary" label="Publish" @click="publishNotes" />
     </q-page-sticky>
-    <q-drawer v-model="leftDrawerOpen" class="bg-grey-2" show-if-above bordered>
+    <q-drawer v-model="leftDrawerOpen" side="left" bordered>
       <q-card
         style="width: 100%"
         flat
         class="q-py-sm row justify-between items-center"
       >
-        <router-link class="col-1" to="/teacher/notes">
+        <router-link style="width: 100%" :to="`/teacher/notes/${notes?.id}`">
           <q-btn
-            class="q-mx-sm"
-            block
-            color="primary"
+            style="width: 100%"
+            color="accent"
             flat
-            dense
-            icon="arrow_back"
+            block
+            label="General Introduction"
           />
         </router-link>
-        <div class="text-h6 q-px-md q-py-xs col-9">
-          {{ notes?.title }}
-        </div>
-
-        <div class="col-2">
-          <q-btn
-            round
-            dense
-            outline
-            class="q-mx-sm"
-            color="primary"
-            icon="close"
-            aria-label="Menu"
-            v-if="leftDrawerOpen"
-            @click="leftDrawerOpen = !leftDrawerOpen"
-          />
-        </div>
       </q-card>
       <q-separator />
-      <router-link :to="`/teacher/notes/${notes?.id}`">
-        <q-btn
-          style="width: 100%"
-          color="accent"
-          flat
-          label="General Introduction"
-          class="q-mr-sm"
-        />
-      </router-link>
+
       <div v-for="topic in notes?.topics" :key="topic.id">
-        <div class="flex justify-between bg-white text-h6 q-pa-sm">
+        <div
+          class="flex justify-between bg-white text-weight-bold text-subtitle1 q-pa-sm"
+        >
           <router-link :to="`/teacher/notes/${notes?.id}/topics/${topic.id}`">
             {{ topic.name }}
           </router-link>
         </div>
-        <q-list class="q-ma-sm" bordered separator style="max-width: 300px">
+        <q-list class="q-mx-xs" bordered separator style="max-width: 300px">
           <q-item
             :active="subtopic.id == $route.params.subtopic_id"
             active-class="bg-accent text-white"
@@ -112,10 +99,10 @@
             />
           </router-link>
         </div>
+        <q-separator spaced />
       </div>
 
       <q-card flat class="q-pa-sm">
-        <!-- <div class="q-pa-sm"> -->
         <q-input
           outlined
           type="text"
@@ -123,7 +110,6 @@
           v-model="formData.name"
           @keydown.enter="createTopic"
         />
-        <!-- </div> -->
       </q-card>
     </q-drawer>
 
@@ -140,7 +126,7 @@ export default defineComponent({
   data() {
     return {
       notes: null,
-      leftDrawerOpen: false,
+      leftDrawerOpen: true,
       formData: {
         name: "",
       },

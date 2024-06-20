@@ -83,7 +83,7 @@ export default {
           const user = res.data;
           this.$authStore.setUserAndToken(user, token);
           this.$utilsStore.setLoading(false);
-          var _next = this.$route.query._next || "/dashboard";
+          var _next = this.$route.query._next || "/dashboard/subjects";
           if (user.school.id) {
             _next = "/school";
           } else if (user.teacher.id) {

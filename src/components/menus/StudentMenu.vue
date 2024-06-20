@@ -36,9 +36,9 @@ export default {
     return {
       user: this.$authStore.currentUser,
       menuItems: [
-        { name: "Dashboard", route: "/dashboard", icon: "dashboard" },
-        { name: "Wallet", route: "/dashboard/wallet", icon: "wallet" },
+        // { name: "Dashboard", route: "/dashboard", icon: "dashboard" },
         { name: "Subjects", route: "/dashboard/subjects", icon: "subject" },
+        { name: "Wallet", route: "/dashboard/wallet", icon: "wallet" },
         { name: "Examination", route: "/dashboard/examination", icon: "edit" },
         // {
         //   name: "Examination",

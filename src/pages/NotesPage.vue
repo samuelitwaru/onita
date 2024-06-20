@@ -1,50 +1,28 @@
 <template lang>
   <div class="q-pa-sm my-auto" v-if="note">
     <small class="component-label">NotesPage</small>
-
-    <div class="row">
-      <div class="col-md-2 text-h2 text-right"></div>
-      <div class="col text-center">
-        <!-- <div class="text-h2">{{ note.title }}</div> -->
-        <br />
-        <q-markup-table flat bordered>
-          <tbody>
-            <tr>
-              <td class="text-left"><strong>Subject</strong></td>
-              <td class="text-left">{{ note.subject_detail.name }}</td>
-            </tr>
-            <tr>
-              <td class="text-left"><strong>Level</strong></td>
-              <td class="text-left">
-                {{ note.subject_detail.learning_center_name }}
-              </td>
-            </tr>
-            <tr>
-              <td class="text-left"><strong>Teacher</strong></td>
-              <td class="text-left">
-                {{ note.teacher_detail.full_name }}
-              </td>
-            </tr>
-            <tr>
-              <td class="text-left"><strong>Your Progress</strong></td>
-              <td class="text-left">{{ calculateProgress() }}%</td>
-            </tr>
-            <tr v-if="!notes_logs.length">
-              <td class="text-left"><strong>Enroll</strong></td>
-              <td class="text-left">
-                <q-btn color="accent" label="enroll" @click="enroll" />
-              </td>
-            </tr>
-          </tbody>
-        </q-markup-table>
+    <div class="">
+      <div class="text-center">
         <br />
         <div class="text-h4">Introduction</div>
+
         <q-separator spaced />
-        <q-card class="q-pt-md" flat bordered>
-          <div v-html="note.introduction"></div>
+        <q-card class="q-py-md" flat bordered>
+          <div v-html="note.introduction || nothing"></div>
         </q-card>
       </div>
-      <div class="col-md-2 q-mt-auto q-pa-md"></div>
+      <div
+        align="right"
+        class="flex justify-between row reverse q-mt-auto q-py-md"
+      >
+        <q-btn
+          v-if="firstTopic"
+          color="primary"
+          icon="arrow_right"
+          label="next"
+          @click="next"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -56,61 +34,28 @@ export default {
       user: this.$authStore.currentUser,
       topic: {},
       note: null,
+      nothing: '<div class="text-h1 text-grey">Nothing Here</div>',
       notes_logs: [],
     };
   },
   created() {
     this.getNote();
   },
+  computed: {
+    firstTopic() {
+      var topics = this.note.topics.find((topic) => topic.order == 1);
+      return topics;
+    },
+  },
   methods: {
     getNote() {
       this.$api.get(`notes/${this.$route.params.notes_id}/`).then((res) => {
         this.note = res.data;
-        this.getStudentNotesLogs();
-      });
-    },
-    getStudentNotesLogs() {
-      this.$api
-        .get(
-          `student-notes-logs/?student=${this.user.student.id}&notes=${this.$route.params.notes_id}`
-        )
-        .then((res) => {
-          this.notes_logs = res.data;
-          if (this.notes_logs.length)
-            this.last_log = this.notes_logs[this.notes_logs.length - 1];
-        });
-    },
-    getTopic(topic_id) {
-      if (!topic_id) {
-        topic_id = this.note.topics[0].id;
-      }
-      this.$api.get(`topics/${topic_id}`).then((res) => {
-        this.topic = res.data;
       });
     },
 
-    calculateProgress() {
-      var topics_covered = this.notes_logs.filter(
-        (log) => log.note != "TESTED"
-      ).length;
-      var total_topics = this.note.topics.length;
-      if (total_topics == 0) return 0;
-      var progress = (topics_covered / total_topics) * 100;
-      return Math.round(progress);
-    },
-    enroll() {
-      this.$api
-        .post(`student-notes-logs/`, {
-          note: "ENROLLED",
-          student: this.user.student.id,
-          notes: this.$route.params.notes_id,
-          topic: null,
-        })
-        .then((res) => {
-          console.log(res.data);
-          this.notes_logs = res.data;
-          this.getStudentNotesLogs();
-        });
+    next() {
+      window.location = `/notes/${this.$route.params.notes_id}/topics/${this.firstTopic.id}`;
     },
   },
 };

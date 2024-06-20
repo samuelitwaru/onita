@@ -1,121 +1,56 @@
 <template>
-  <q-layout view="lHh Lpr lFf" v-if="note">
-    <q-drawer v-model="leftDrawerOpen" class="bg-grey-2" show-if-above bordered>
-      <q-card flat class="q-py-sm flex items-center">
+  <q-layout view="hhh Lpr fff">
+    <q-header reveal bordered class="bg-primary text-white" height-hint="98">
+      <q-toolbar>
         <router-link to="/dashboard/subjects">
-          <q-btn
-            class="q-mx-sm"
-            block
-            color="primary"
-            flat
-            dense
-            icon="arrow_back"
-          />
+          <q-btn class="q-mx-sm text-white" outline dense icon="arrow_back" />
         </router-link>
-        <div class="text-h6 q-px-md q-py-xs">
-          {{ note.subject_detail.name }}
-        </div>
-      </q-card>
-      <q-separator />
+        <q-toolbar-title>
+          {{ note?.title }}
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-header>
 
-      <div>
-        <q-select
-          outlined
-          flat
-          v-model="prevTopic"
-          :options="
-            notes_logs.filter((log) => log.note == 'TESTED' && log.topic)
-          "
-          label="Past Topics"
-          option-value="topic"
-          option-label="topic_name"
-          map-options
-          dense
-          emit-value
-          class="q-pa-xs"
-          @update:model-value="changeTopic"
-        />
+    <q-drawer v-model="leftDrawerOpen" class="bg-grey-2" show-if-above bordered>
+      <!-- {{ progresses }}
+
+      {{ lastProgress }} -->
+
+      <div v-if="!progresses?.length" class="text-center q-py-xl">
+        Enroll to start learning
       </div>
 
-      <div v-if="topic">
-        <div class="flex justify-between bg-white text-h6 q-pa-md">
-          <router-link
-            :to="`/notes/${this.$route.params.notes_id}/topics/${topic.id}`"
-          >
-            {{ topic.name }}
-          </router-link>
-        </div>
-        <q-list
-          class="q-ma-sm"
-          dense
-          bordered
-          separator
-          style="max-width: 318px"
-        >
-          <q-item
-            :active="subtopic.id == $route.params.subtopic_id"
-            active-class="bg-accent text-white"
-            v-for="subtopic in topic.subtopics"
-            :key="subtopic.id"
-            clickable
-            class="q-pa-sm"
-          >
-            <router-link
-              :to="`/notes/${note.id}/topics/${topic.id}/subtopics/${subtopic.id}`"
-              class="text-dark"
-              style="width: 100%"
-            >
-              <q-item-section class="q-pa-sm" style="width: 100%">{{
-                subtopic.name
-              }}</q-item-section>
-            </router-link>
+      <div v-else-if="note">
+        <q-list>
+          <q-item v-for="prog in progresses" :key="prog.id">
+            <q-item-section top avatar>
+              <q-avatar
+                v-if="prog.category == 'topic'"
+                color="primary"
+                text-color="white"
+                icon="topic"
+              />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ prog.title }}</q-item-label>
+              <q-item-label caption lines="2"
+                >Secondary line text.</q-item-label
+              >
+            </q-item-section>
+            <q-item-section side top>
+              <q-item-label caption>{{ prog.status }}</q-item-label>
+              <q-icon
+                v-if="prog.status == 'COMPLETED'"
+                name="check"
+                color="green"
+              />
+            </q-item-section>
           </q-item>
         </q-list>
-        <router-link
-          v-if="topic_questions.length"
-          :to="`/notes/${note?.id}/topics/${topic?.id}/test`"
-        >
-          <q-btn
-            color="primary"
-            icon="note"
-            style="width: 100%"
-            flat
-            label="Progress Test"
-          />
-        </router-link>
-
-        <q-btn
-          v-else
-          color="primary"
-          icon="arrow_right"
-          style="width: 100%"
-          flat
-          label="Next Topic"
-          @click="nextTopic"
-        />
       </div>
     </q-drawer>
 
     <q-page-container>
-      <!-- <q-card
-        style="background: #00000000"
-        flat
-        bordered
-        class="my-card q-pa-sm q-ma-xs"
-      >
-        <div>
-          <q-btn
-            flat
-            dense
-            round
-            icon="menu"
-            aria-label="Menu"
-            @click="leftDrawerOpen = !leftDrawerOpen"
-          />
-          {{ topic?.name }}
-        </div>
-      </q-card> -->
-
       <router-view> </router-view>
     </q-page-container>
   </q-layout>
@@ -129,33 +64,36 @@ export default defineComponent({
     return {
       user: this.$authStore.currentUser,
       note: null,
-      topic: null,
-      topic_questions: [],
       leftDrawerOpen: false,
-      notes_logs: [],
       last_log: null,
       prevTopic: null,
+      progresses: [],
+      lastProgress: null,
     };
   },
 
   created() {
     this.getNote();
-    this.getTopicQuestions();
+    this.getProgresses();
+
+    this.$bus.on("progress-changed", (val) => this.getProgresses());
   },
 
   methods: {
     getNote() {
       this.$api.get(`notes/${this.$route.params.notes_id}/`).then((res) => {
         this.note = res.data;
-        this.getStudentNotesLogs();
       });
     },
 
-    getTopicQuestions() {
+    getProgresses() {
       this.$api
-        .get(`topic-questions/?topic=${this.$route.params.topic_id}`)
+        .get(
+          `student-notes-progresses/?student=${this.user.student.id}&notes=${this.$route.params.notes_id}`
+        )
         .then((res) => {
-          this.topic_questions = res.data;
+          console.log(res.data);
+          this.progresses = res.data;
         });
     },
 
@@ -164,24 +102,6 @@ export default defineComponent({
       this.$router.push(
         `/notes/${this.$route.params.notes_id}/topics/${this.prevTopic}`
       );
-    },
-
-    getStudentNotesLogs() {
-      this.$api
-        .get(
-          `student-notes-logs/?student=${this.user.student.id}&notes=${this.$route.params.notes_id}`
-        )
-        .then((res) => {
-          this.notes_logs = res.data.map((log) => {
-            if (log.topic) {
-              log.topic_name = log.topic_detail.name;
-            }
-            return log;
-          });
-          console.log(this.notes_logs);
-          this.last_log = this.notes_logs.pop();
-          this.getTopic(this.last_log.topic);
-        });
     },
 
     getTopic(topic_id) {
@@ -217,7 +137,7 @@ export default defineComponent({
 
   watch: {
     "$route.params.topic_id": function (newVal, oldVal) {
-      this.getTopicQuestions();
+      this.getNote();
     },
   },
 });
@@ -226,5 +146,13 @@ export default defineComponent({
 <style>
 a {
   text-decoration: none;
+}
+
+.fixed-width-ellipsis {
+  width: 200px; /* Set the fixed width as needed */
+  white-space: nowrap; /* Prevent the text from wrapping */
+  overflow: hidden; /* Hide the overflow content */
+  text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
+  display: block; /* Ensure the element behaves like a block */
 }
 </style>

@@ -54,11 +54,11 @@ export default {
           route: "/teacher/tests",
           icon: "access_time_filled",
         },
-        {
-          name: "RTE",
-          route: "/dashboard/rte",
-          icon: "",
-        },
+        // {
+        //   name: "RTE",
+        //   route: "/dashboard/rte",
+        //   icon: "",
+        // },
         // {
         //   name: "Schools",
         //   route: "/teacher/schools",

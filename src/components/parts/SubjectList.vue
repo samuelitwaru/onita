@@ -26,12 +26,21 @@
           </div>
         </q-img>
 
-        <q-card-actions align="right">
-          <router-link v-if="note.isLogged" :to="`/notes/${note.id}`">
+        <q-card-actions class="flex justify-between">
+          <q-circular-progress
+            show-value
+            class="text-light-blue q-ma-md"
+            :value="getNotesProgress(note)"
+            size="50px"
+            color="light-blue"
+          >
+            {{ getNotesProgress(note) }}%
+          </q-circular-progress>
+          <router-link v-if="note.isLogged" :to="`/notes/${note.id}/content`">
             <q-btn color="primary" label="Study" />
           </router-link>
-          <router-link v-else :to="`/notes/${note.id}`">
-            <q-btn color="accent" label="enroll (10,000 UGX)" />
+          <router-link v-else :to="`/notes/${note.id}/enroll`">
+            <q-btn color="accent" label="enroll" />
           </router-link>
         </q-card-actions>
       </q-card>
@@ -63,13 +72,26 @@ export default defineComponent({
         .get(`notes/?level=${this.user.student.level.id}&is_published=false`)
         .then((res) => {
           this.notes = res.data.map((note) => {
-            var logs = this.notes_logs.filter((log) => log.notes == note.id);
+            var logs = note.logs.filter(
+              (log) => log.student == this.user.student.id
+            );
             if (logs.length) {
               note.isLogged = true;
             }
+            console.log(note);
             return note;
           });
         });
+    },
+
+    getNotesProgress(note) {
+      var checkpoints = 2;
+      for (let index = 0; index < note.topics.length; index++) {
+        const topic = note.topics[index];
+        checkpoints += 1;
+        checkpoints += topic.subtopics.length;
+      }
+      return Math.round((note.logs.length / checkpoints) * 100);
     },
 
     getStudentNotesLogs() {

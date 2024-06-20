@@ -1,9 +1,12 @@
 <template lang>
   <div class="q-pa-sm my-auto" v-if="note">
     <small class="component-label">NotesPage</small>
-    <div class="row">
-      <div class="col-md-2 text-h2 text-right"></div>
-      <div class="col text-center">
+    <div>
+      <h2 class="text-h3 flex items-center">
+        <img style="width: 100px" src="~assets/enroll.png" />
+        Enroll
+      </h2>
+      <div>
         <!-- <div class="text-h2">{{ note.title }}</div> -->
         <br />
         <q-markup-table flat bordered>
@@ -24,20 +27,12 @@
                 {{ note.teacher_detail.full_name }}
               </td>
             </tr>
-            <tr>
-              <td class="text-left"><strong>Your Progress</strong></td>
-              <td class="text-left">{{ calculateProgress() }}%</td>
-            </tr>
           </tbody>
         </q-markup-table>
         <br />
-        <div class="text-h4">Introduction</div>
-        <q-separator spaced />
-        <q-card class="q-pt-md" flat bordered>
-          <div v-html="note.introduction"></div>
-        </q-card>
+
+        <q-btn size="xl" color="accent" label="ENROLL" @click="enroll" />
       </div>
-      <div class="col-md-2 q-mt-auto q-pa-md"></div>
     </div>
   </div>
 </template>
@@ -50,34 +45,39 @@ export default {
       topic: {},
       note: null,
       notes_logs: [],
+      progresses: [],
     };
   },
   created() {
     this.getNote();
+    this.getStudentTopicProgresses();
   },
   methods: {
+    getStudentTopicProgresses() {
+      this.$api
+        .get(`student-notes-progresses/?notes=${this.$route.params.notes_id}`)
+        .then((res) => {
+          this.progresses = res.data;
+          if (this.progresses.length) {
+            window.location = `/notes/${this.$route.params.notes_id}/content`;
+          }
+        });
+    },
     getNote() {
       this.$api.get(`notes/${this.$route.params.notes_id}/`).then((res) => {
         this.note = res.data;
-        this.getStudentNotesLogs();
       });
     },
-    getStudentNotesLogs() {
+    enroll() {
       this.$api
-        .get(`student-notes-logs/?student=${this.user.student.id}`)
+        .post(`notes/${this.$route.params.notes_id}/enroll-student/`, {
+          student: this.$authStore.currentUser.student.id,
+        })
         .then((res) => {
-          this.notes_logs = res.data;
-          this.last_log = this.notes_logs.pop();
-          this.getTopic(this.last_log.topic);
+          if (res.status == 200) {
+            window.location = "";
+          }
         });
-    },
-    getTopic(topic_id) {
-      if (!topic_id) {
-        topic_id = this.note.topics[0].id;
-      }
-      this.$api.get(`topics/${topic_id}`).then((res) => {
-        this.topic = res.data;
-      });
     },
 
     calculateProgress() {

@@ -23,6 +23,7 @@ import createChoiceDialog from "components/CreateChoiceDialog.vue";
 import createQuestionDialog from "components/CreateQuestionDialog.vue";
 import createTopicQuestionDialog from "components/CreateTopicQuestionDialog.vue";
 import createTacherSubject from "components/CreateTeacherSubject.vue";
+import studentTest from "components/StudentTest.vue";
 import answerChoiceEditor from "components/AnswerChoiceEditor.vue";
 import { createApp } from "vue";
 import App from "../App.vue";
@@ -56,6 +57,7 @@ const components = {
   "create-question-dialog": createQuestionDialog,
   "create-topic-question-dialog": createTopicQuestionDialog,
   "create-teacher-subject": createTacherSubject,
+  "student-test": studentTest,
   "create-notes-dialog": createNotesDialog,
   "answer-choice-editor": answerChoiceEditor,
   "vue-mathjax": VueMathjax,
