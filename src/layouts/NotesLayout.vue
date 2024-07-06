@@ -32,16 +32,25 @@
               />
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ prog.title }}</q-item-label>
-              <q-item-label caption lines="2"
-                >Secondary line text.</q-item-label
+              <q-item-label
+                :class="{
+                  'text-red': currentProgress && currentProgress.id == prog.id,
+                }"
               >
+                <strong v-if="prog.category == 'topic'">{{
+                  prog.title
+                }}</strong>
+                <label v-else>{{ prog.title }}</label>
+              </q-item-label>
+              <!-- <q-item-label caption lines="2"
+                >Secondary line text.</q-item-label
+              > -->
             </q-item-section>
-            <q-item-section side top>
-              <q-item-label caption>{{ prog.status }}</q-item-label>
+            <q-item-section side middle>
+              <!-- <q-item-label caption>{{ prog.status }}</q-item-label> -->
               <q-icon
                 v-if="prog.status == 'COMPLETED'"
-                name="check"
+                name="check_circle"
                 color="green"
               />
             </q-item-section>
@@ -69,14 +78,19 @@ export default defineComponent({
       prevTopic: null,
       progresses: [],
       lastProgress: null,
+      currentProgress: null,
     };
   },
 
   created() {
     this.getNote();
     this.getProgresses();
+    this.getCurrentProgress();
 
-    this.$bus.on("progress-changed", (val) => this.getProgresses());
+    this.$bus.on("progress-changed", (val) => {
+      this.getProgresses();
+      this.currentProgress = val;
+    });
   },
 
   methods: {
@@ -94,6 +108,19 @@ export default defineComponent({
         .then((res) => {
           console.log(res.data);
           this.progresses = res.data;
+        });
+    },
+
+    getCurrentProgress() {
+      this.$api
+        .get(
+          `student-notes-progresses/?student=${this.user.student.id}&notes=${this.$route.params.notes_id}&status=STARTED`
+        )
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.length) {
+            this.currentProgress = res.data[0];
+          }
         });
     },
 

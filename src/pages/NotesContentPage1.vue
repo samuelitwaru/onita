@@ -2,15 +2,7 @@
   <div class="q-pa-sm my-auto">
     <small class="component-label">NotesPage</small>
     <div class="">
-      {{ progresses }}
-      <hr />
-      {{ currentProgress }}
-      <hr />
-      {{ nextProgress }}
-      <hr />
-      {{ prevProgress }}
       <div
-        class="text-center"
         v-if="
           progresses.length &&
           currentProgress &&
@@ -21,7 +13,7 @@
         <div class="text-h4">{{ currentProgress.title }}</div>
 
         <q-separator spaced />
-        <q-card class="q-py-md" flat bordered>
+        <q-card class="q-pa-md" flat bordered>
           <div v-html="currentProgress.content || nothing"></div>
         </q-card>
       </div>
@@ -46,6 +38,30 @@
         <q-card class="q-py-md" flat bordered>
           <div v-html="'<p>You have completed the course!<p>'"></div>
         </q-card>
+        <q-btn
+          outline
+          color="primary"
+          icon="arrow_left"
+          label="previous"
+          @click="goToPrevProgress"
+        />
+        <q-btn
+          class="q-ma-sm"
+          color="primary"
+          icon="refresh"
+          outline
+          @click="deleteProgresses"
+          label="Restart Course"
+        />
+        <router-link to="/dashboard/subjects">
+          <q-btn
+            class="q-ma-sm"
+            color="primary"
+            icon="arrow_right"
+            flat
+            label="Go To Subjects"
+          />
+        </router-link>
       </div>
 
       <div
@@ -53,7 +69,6 @@
         class="flex justify-between row reverse q-mt-auto q-py-md"
       >
         <q-btn
-          v-if="nextProgress"
           outline
           color="primary"
           icon-right="arrow_right"
@@ -105,6 +120,8 @@ export default {
       );
     },
     prevProgress() {
+      if (!this.currentProgress)
+        return this.progresses[this.progresses.length - 1];
       return this.progresses.find(
         (prog) => prog.order == this.currentProgress.order - 1
       );
@@ -119,6 +136,8 @@ export default {
         .then((res) => {
           console.log(res.data);
           this.progresses = res.data;
+          if (this.progresses.length == 0)
+            window.location = `/notes/${this.$route.params.notes_id}/enroll`;
         });
     },
     getCurrentProgress() {

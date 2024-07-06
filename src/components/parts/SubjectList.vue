@@ -30,18 +30,18 @@
           <q-circular-progress
             show-value
             class="text-light-blue q-ma-md"
-            :value="getNotesProgress(note)"
+            :value="notesProgresses[note.id] || 0"
             size="50px"
             color="light-blue"
           >
-            {{ getNotesProgress(note) }}%
+            {{ notesProgresses[note.id] || 0 }}%
           </q-circular-progress>
-          <router-link v-if="note.isLogged" :to="`/notes/${note.id}/content`">
+          <router-link :to="`/notes/${note.id}/content`">
             <q-btn color="primary" label="Study" />
           </router-link>
-          <router-link v-else :to="`/notes/${note.id}/enroll`">
+          <!-- <router-link :to="`/notes/${note.id}/enroll`">
             <q-btn color="accent" label="enroll" />
-          </router-link>
+          </router-link> -->
         </q-card-actions>
       </q-card>
     </div>
@@ -59,28 +59,29 @@ export default defineComponent({
       notes: [],
       subjects: [],
       notes_logs: [],
+      notesProgresses: {},
     };
   },
 
   created() {
-    this.getStudentNotesLogs();
+    this.getNotes();
+    this.getStudentProgresses();
   },
 
   methods: {
     getNotes() {
       this.$api
-        .get(`notes/?level=${this.user.student.level.id}&is_published=false`)
+        .get(`notes/?level=${this.user.student.level.id}`)
         .then((res) => {
-          this.notes = res.data.map((note) => {
-            var logs = note.logs.filter(
-              (log) => log.student == this.user.student.id
-            );
-            if (logs.length) {
-              note.isLogged = true;
-            }
-            console.log(note);
-            return note;
-          });
+          this.notes = res.data;
+        });
+    },
+
+    getStudentProgresses() {
+      this.$api
+        .get(`students/${this.user.student.id}/notes-progresses`)
+        .then((res) => {
+          this.notesProgresses = res.data;
         });
     },
 
@@ -92,29 +93,6 @@ export default defineComponent({
         checkpoints += topic.subtopics.length;
       }
       return Math.round((note.logs.length / checkpoints) * 100);
-    },
-
-    getStudentNotesLogs() {
-      this.$api
-        .get(`student-notes-logs/?student=${this.user.student.id}`)
-        .then((res) => {
-          this.notes_logs = res.data;
-          this.getNotes();
-        });
-    },
-
-    enroll(notes_id) {
-      this.$api
-        .post(`student-notes-logs/`, {
-          note: "ENROLLED",
-          student: this.user.student.id,
-          notes: notes_id,
-          topic: null,
-        })
-        .then((res) => {
-          this.notes_logs = res.data;
-          this.getStudentNotesLogs();
-        });
     },
   },
 });

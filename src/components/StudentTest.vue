@@ -2,7 +2,6 @@
   <div class="q-pa-lg">
     <div class="flex justify-between">
       <div class="text-h4">Progress Test</div>
-      {{ progress }}
       <q-btn
         v-if="last_log?.note != 'TESTED'"
         color="primary"
@@ -90,7 +89,7 @@
 </template>
 <script>
 export default {
-  props: ['progress'],
+  props: ["progress"],
   data() {
     return {
       questions: [],
@@ -134,11 +133,9 @@ export default {
 
     submitTest() {
       if (confirm("Confirm submission?")) {
-        this.$emit('submit-test')
+        this.$emit("submit-test");
       }
     },
-
-
 
     getCurrentQuestionAnswer() {
       this.$api
